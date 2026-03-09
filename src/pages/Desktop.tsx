@@ -205,6 +205,17 @@ export default function Desktop(props: MacActions) {
   const renderAppWindows = () => {
     return apps.map((app) => {
       if (app.desktop && state.showApps[app.id]) {
+        if (app.id === "siri") {
+          return (
+            <div
+              key={`desktop-app-${app.id}`}
+              className="fixed top-8 right-4 z-[1000] drop-shadow-2xl flex items-start justify-end"
+            >
+              {React.cloneElement(app.content as React.ReactElement, { closeSiri: () => closeApp('siri') })}
+            </div>
+          );
+        }
+
         const props = {
           id: app.id,
           title: app.title,
