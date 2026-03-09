@@ -2,8 +2,8 @@ import React from "react";
 import { terminal } from "~/configs";
 import type { TerminalData } from "~/types";
 
-const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789落霞与孤鹜齐飞秋水共长天一色";
-const EMOJIS = ["\\(o_o)/", "(˚Δ˚)b", "(^-^*)", "(╯‵□′)╯", "\\(°ˊДˋ°)/", "╰(‵□′)╯"];
+const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const EMOJIS = ["\\(o_o)/", "(˚Δ˚)b", "(^-^*)", "(‵′)", "\\(°ˊДˋ°)/", "(‵′)"];
 
 const getEmoji = () => {
   return EMOJIS[Math.floor(Math.random() * EMOJIS.length)];

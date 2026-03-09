@@ -9,7 +9,7 @@ import "@unocss/reset/tailwind.css";
 import "uno.css";
 import "katex/dist/katex.min.css";
 import "~/styles/index.css";
-import { AudioProvider } from "./context/AudioContext";
+import { AudioProvider } from "~/context/AudioContext";
 
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
   const [restart, setRestart] = useState<boolean>(false);
   const [sleep, setSleep] = useState<boolean>(false);
 
- 
+
   const shutMac = (e: React.MouseEvent): void => {
     e.stopPropagation();
     setRestart(false);
