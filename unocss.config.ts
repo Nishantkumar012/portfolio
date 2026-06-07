@@ -44,8 +44,7 @@ export default defineConfig({
     ["border-menu", "border-gray-500/50"],
     [
       "menu-box",
-      "fixed top-8.5 text-c-black bg-[rgba(255,255,255,0.7)] backdrop-blur-20px dark:bg-[rgb(18,25,41,0.67)] border border-menu rounded-lg shadow-menu"
-      // "fixed top-8.5 text-c-black bg-[rgba(255,255,255,0.7)] backdrop-blur-20px dark:backdrop-none border border-menu rounded-lg shadow-menu dark:bg-c-200/90"
+      "fixed top-8.5 text-c-black dark:text-white"
     ],
     [
       "safari-btn",
@@ -71,9 +70,17 @@ export default defineConfig({
       }
     })
   ],
+  theme: {
+    fontFamily: {
+      sans: ['var(--font-system)'],
+      display: ['var(--font-display)'],
+      rounded: ['var(--font-rounded)'],
+      mono: ['var(--font-mono)'],
+    }
+  },
   transformers: [
     transformerDirectives(),
     transformerVariantGroup(),
-    transformerAttributifyJsx()
+    // transformerAttributifyJsx()
   ]
 });

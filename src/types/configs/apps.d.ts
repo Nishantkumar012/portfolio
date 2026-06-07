@@ -13,4 +13,5 @@ export interface AppsData {
   y?: number;
   content?: JSX.Element;
   link?: string;
+  hideFromDock?: boolean;
 }
