@@ -2,42 +2,35 @@ import type { LaunchpadData } from "~/types";
 
 const launchpadApps: LaunchpadData[] = [
   {
+    id: "library",
+    title: "Library",
+    img: "img/icons/launchpad/library-icon.png",
+    link: "https://github.com/aakashsharma003/lib"
+  },
+  {
+    id: "skill-exchange",
+    title: "SkillExchange",
+    img: "img/icons/launchpad/skill-exchange.png", // background should be black
+    link: "https://skill-exchange-fe.vercel.app/"
+  },
+  {
+    id: "share-code",
+    title: "ShareCode",
+    img: "img/icons/launchpad/share-code-app.png",
+    link: "https://share-your-codes.vercel.app/"
+  },
+  {
     id: "paytm-web",
-    title: "PaytmWeb",
-    img: "img/icons/launchpad/paytm-web.jpg",  
-    link: "https://github.com/aakashsharma003/PaytmWeb"
-  },
-  {
-    id: "portfolio-macos",
-    title: "Portfolio macOS",
-    img: "img/icons/launchpad/apple.png",  
-    link: "https://github.com/aakashsharma003/macOS-Portfolio"
-  },
-  {
-    id: "medium-2.0",
-    title: "Medium 2.0",
-    img: "img/icons/launchpad/medium-2.0.png",  
-    link: "https://github.com/aakashsharma003/Medium"
+    title: "Paytm",
+    img: "img/icons/launchpad/paytm-app.png",
+    link: "https://paytm-web.vercel.app/"
   },
   {
     id: "attendance-web",
-    title: "Mbm Attendance Web",
-    img: "img/icons/launchpad/attendance-web.png",  
-    link: "https://github.com/aakashsharma003/Mbm-Attendance-Application"
-  },
-  {
-    id: "aero-pay",
-    title: "AeroPay",
-    img: "img/icons/launchpad/aero-pay.png",  
-    link: "https://github.com/aakashsharma003/AeroPay"
-  },
-  {
-    id: "rasl",
-    title: "rasl",
-    img: "img/icons/launchpad/rasl.png",  
-    link: "https://github.com/Open-Source-Collab-Community/rasl"
+    title: "MBM Attendance",
+    img: "img/icons/launchpad/attendance-web.png",
+    link: "https://mbm-attendance-web.vercel.app/"
   }
 ];
-
 
 export default launchpadApps;
