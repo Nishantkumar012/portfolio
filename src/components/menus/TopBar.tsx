@@ -1,7 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
+import { AnimatePresence } from "framer-motion";
 import { isFullScreen } from "~/utils";
-import { music } from "~/configs";
 import type { MacActions } from "~/types";
 import { useAudioContext } from "~/context/AudioContext";
 
@@ -18,15 +18,18 @@ const TopBarItem = forwardRef(
   (props: TopBarItemProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const hide = props.hideOnMobile ? "hidden sm:inline-flex" : "inline-flex";
     const bg = props.forceHover
-      ? "bg-gray-100/30 dark:bg-gray-400/40"
-      : "hover:(bg-gray-100/30 dark:bg-gray-400/40)";
+      ? "bg-white/10 dark:bg-white/15"
+      : "hover:(bg-white/10 dark:bg-white/15)";
 
     return (
       <div
         ref={ref}
-        className={`hstack space-x-1 h-6 px-1 cursor-default rounded ${hide} ${bg} ${
+        className={`hstack space-x-1 h-6 px-1.5 cursor-default rounded ${hide} ${bg} ${
           props.className || ""
         }`}
+        style={{
+          transition: 'background-color 0.15s ease',
+        }}
         onClick={props.onClick}
         onMouseEnter={props.onMouseEnter}
       >
@@ -55,6 +58,10 @@ interface TopBarProps extends MacActions {
   setSpotlightBtnRef: (value: React.RefObject<HTMLDivElement>) => void;
   hide: boolean;
   toggleSpotlight: () => void;
+  openApp?: (id: string) => void;
+  toggleNotificationCenter?: () => void;
+  showNotificationCenter?: boolean;
+  openAboutMac?: () => void;
 }
 
 interface TopBarState {
@@ -77,11 +84,6 @@ const TopBar = (props: TopBarProps) => {
     showAppleMenu: false
   });
 
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  // const [audio, audioState, controls, audioRef] = useAudio({
-  //   src: music.audio,
-  //   autoReplay: true
-  // });
   const {audio, audioState, controls, audioRef} = useAudioContext();
   const { winWidth, winHeight } = useWindowSize();
 
@@ -106,11 +108,6 @@ const TopBar = (props: TopBarProps) => {
     props.setSpotlightBtnRef(spotlightBtnRef);
     controls.volume(volume / 100);
   }, []);
-
-  useEffect(() => {
-    const isFull = isFullScreen();
-    toggleFullScreen(isFull);
-  }, [winWidth, winHeight]);
 
   const setAudioVolume = (value: number): void => {
     setVolume(value);
@@ -164,9 +161,24 @@ const TopBar = (props: TopBarProps) => {
 
   return (
     <div
-      className={`w-full h-8 px-2 fixed top-0 hstack justify-between ${
-        props.hide ? "z-0" : "z-20"
-      } text-sm text-black dark:text-white bg-gray-700/10 backdrop-blur-2xl shadow transition`}
+      className={`w-full h-7 px-2 fixed top-0 hstack justify-between ${
+        props.hide ? "z-0" : ""
+      } text-sm text-white`}
+      style={{
+        /* Tahoe: Fully transparent menu bar — no blur, no background */
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
+        background: 'transparent',
+        zIndex: props.hide ? 0 : 99999,
+        /* Text readability via subtle drop shadow */
+        textShadow: '0 0.5px 2px rgba(0,0,0,0.25)',
+        transition: 'opacity 0.3s ease, transform 0.3s ease',
+        opacity: props.hide ? 0 : 1,
+        transform: props.hide ? 'translateY(-100%)' : 'translateY(0)',
+        fontSize: '13px',
+        fontWeight: 400,
+        fontFamily: 'var(--font-system)',
+      }}
     >
       <div className="hstack space-x-1">
         <TopBarItem
@@ -175,7 +187,7 @@ const TopBar = (props: TopBarProps) => {
           onClick={toggleAppleMenu}
           ref={appleBtnRef}
         >
-          <span className="i-ri:apple-fill text-base" />
+          <span className="i-fa6-brands:apple text-base" />
         </TopBarItem>
         <TopBarItem
           className="font-semibold px-2"
@@ -195,11 +207,13 @@ const TopBar = (props: TopBarProps) => {
           restart={restart}
           sleep={sleep}
           toggleAppleMenu={toggleAppleMenu}
+          openApp={props.openApp}
+          openAboutMac={props.openAboutMac}
           btnRef={appleBtnRef}
         />
       )}
 
-      <div className="hstack flex-row justify-end space-x-2">
+      <div className="hstack flex-row justify-end space-x-1.5">
         <TopBarItem hideOnMobile={true}>
           <Battery />
         </TopBarItem>
@@ -210,13 +224,13 @@ const TopBar = (props: TopBarProps) => {
           ref={wifiBtnRef}
         >
           {wifi ? (
-            <span className="i-material-symbols:wifi text-lg" />
+            <span className="i-ph:wifi-high text-lg" />
           ) : (
-            <span className="i-material-symbols:wifi-off text-lg" />
+            <span className="i-ph:wifi-slash text-lg" />
           )}
         </TopBarItem>
         <TopBarItem ref={spotlightBtnRef} onClick={props.toggleSpotlight}>
-          <span className="i-bx:search text-[17px]" />
+          <span className="i-ph:magnifying-glass text-[17px]" />
         </TopBarItem>
         <TopBarItem
           forceHover={state.showControlCenter}
@@ -232,20 +246,25 @@ const TopBar = (props: TopBarProps) => {
         )}
 
         {/* Open this when clicking on Control Center button */}
-        {state.showControlCenter && (
-          <ControlCenterMenu
-            playing={audioState.playing}
-            toggleAudio={controls.toggle}
-            setVolume={setAudioVolume}
-            setBrightness={setSiteBrightness}
-            toggleControlCenter={toggleControlCenter}
-            btnRef={controlCenterBtnRef}
-          />
-        )}
+        <AnimatePresence>
+          {state.showControlCenter && (
+            <ControlCenterMenu
+              playing={audioState.playing}
+              toggleAudio={controls.toggle}
+              setVolume={setAudioVolume}
+              setBrightness={setSiteBrightness}
+              toggleControlCenter={toggleControlCenter}
+              btnRef={controlCenterBtnRef}
+            />
+          )}
+        </AnimatePresence>
 
-        <TopBarItem>
-          <span>{format(state.date, "eee MMM d")}</span>
-          <span>{format(state.date, "h:mm aa")}</span>
+        <TopBarItem
+          forceHover={props.showNotificationCenter}
+          onClick={props.toggleNotificationCenter}
+        >
+          <span className="font-tabular">{format(state.date, "eee MMM d")}</span>
+          <span className="font-tabular">{format(state.date, "h:mm aa")}</span>
         </TopBarItem>
       </div>
     </div>
