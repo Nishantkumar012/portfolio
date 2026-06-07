@@ -4,27 +4,27 @@ const bear: BearData[] = [
   {
     id: "profile",
     title: "Profile",
-    icon: "i-fa-solid:paw",
+    icon: "i-ph:paw-print",
     md: [
       {
         id: "about-me",
         title: "About Me",
         file: "markdown/about-me.md",
-        icon: "i-la:dragon",
+        icon: "i-ph:shield-star",
         excerpt: "Hey there! I'm the one who is building his own universe..."
       },
       {
         id: "github-stats",
         title: "Github Stats",
         file: "markdown/github-stats.md",
-        icon: "i-icon-park-outline:github",
+        icon: "i-fa6-brands:github",
         excerpt: "Here are some status about my github account..."
       },
       {
         id: "about-site",
         title: "About This Site",
         file: "markdown/about-site.md",
-        icon: "i-octicon:browser",
+        icon: "i-ph:browser",
         excerpt: "Something about this personal portfolio site..."
       }
     ]
@@ -32,13 +32,13 @@ const bear: BearData[] = [
   {
     id: "project",
     title: "Projects",
-    icon: "i-octicon:repo",
+    icon: "i-ph:git-branch",
     md: [
       {
         id: "paytm-web",
         title: "PaytmWeb",
         file: "https://raw.githubusercontent.com/aakashsharma003/PaytmWeb/main/README.md",
-        icon: "i-heroicons-solid:credit-card",
+        icon: "i-ph:credit-card",
         excerpt: "A demonstration Project For Paytm transactions...",
         link: "https://github.com/aakashsharma003/paytm-web"
       },
@@ -46,7 +46,7 @@ const bear: BearData[] = [
         id: "portfolio-macos",
         title: "Portfolio macOS",
         file: "https://raw.githubusercontent.com/aakashsharma003/macOS-Portfolio/main/README.md",
-        icon: "i-heroicons-outline:device-desktop",
+        icon: "i-ph:desktop",
         excerpt: "My portfolio website simulating macOS's GUI...",
         link: "https://github.com/aakashsharma003/macos-portfolio"
       },
@@ -54,7 +54,7 @@ const bear: BearData[] = [
         id: "medium-2.0",
         title: "Medium 2.0",
         file: "https://raw.githubusercontent.com/aakashsharma003/Medium/main/README.md",
-        icon: "i-mdi:web",
+        icon: "i-ph:globe",
         excerpt: "A medium modified version with serverless backend...",
         link: "https://github.com/aakashsharma003/Medium"
       },
@@ -62,7 +62,7 @@ const bear: BearData[] = [
         id: "attendance-web",
         title: "Mbm Attendance Web",
         file: "https://raw.githubusercontent.com/aakashsharma003/Mbm-Attendance-Application/main/README.md",
-        icon: "i-heroicons-outline:clipboard-check",
+        icon: "i-ph:clipboard-text",
         excerpt: "A attendance website for mbm university...",
         link: "https://github.com/aakashsharma003/Mbm-Attendance-Application"
       },
@@ -70,7 +70,7 @@ const bear: BearData[] = [
         id: "aero-pay",
         title: "AeroPay",
         file: "https://raw.githubusercontent.com/aakashsharma003/AeroPay/main/README.md",
-        icon: "i-heroicons-solid:cash",
+        icon: "i-ph:money",
         excerpt: "A payment transactions simulator...",
         link: "https://github.com/aakashsharma003/AeroPay"
       },
@@ -78,7 +78,7 @@ const bear: BearData[] = [
         id: "rasl",
         title: "rasl",
         file: "https://raw.githubusercontent.com/Open-Source-Collab-Community/rasl/main/README.md",
-        icon: "i-tabler:headphones",
+        icon: "i-ph:headphones",
         excerpt: "A audio streaming library...",
         link: "https://github.com/Open-Source-Collab-Community/rasl"
       }

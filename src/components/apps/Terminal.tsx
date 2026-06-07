@@ -1,5 +1,5 @@
 import React from "react";
-import { terminal } from "~/configs";
+import terminal from "~/configs/terminal";
 import type { TerminalData } from "~/types";
 
 const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

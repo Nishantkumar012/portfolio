@@ -61,8 +61,8 @@ const Sidebar = ({ cur, setMidBar }: SidebarProps) => {
   return (
     <div text-white>
       <div className="h-12 pr-3 hstack space-x-3 justify-end">
-        <span className="i-ic:baseline-cloud-off text-xl" />
-        <span className="i-akar-icons:settings-vertical text-xl" />
+        <span className="i-ph:cloud-slash text-xl" />
+        <span className="i-ph:sliders-horizontal text-xl" />
       </div>
       <ul>
         {bear.map((item, index) => (
@@ -106,7 +106,7 @@ const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <span className="i-ant-design:link-outlined text-c-500" />
+                  <span className="i-ph:link text-c-500" />
                 </a>
               )}
             </span>
@@ -215,7 +215,7 @@ const Bear = () => {
 
   return (
     <div className="bear font-avenir flex h-full">
-      <div className="w-44 overflow-auto bg-gray-700">
+      <div className="w-44 overflow-auto" style={{ background: "var(--lg-bg-tinted)", backdropFilter: "var(--lg-blur-menu)" }}>
         <Sidebar cur={state.curSidebar} setMidBar={setMidBar} />
       </div>
       <div className="w-60 overflow-auto" bg="gray-50 dark:gray-800" border="r c-300">
