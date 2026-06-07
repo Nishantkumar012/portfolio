@@ -1,12 +1,12 @@
 import React, { createContext, useContext, ReactNode } from "react";
-import { music } from "~/configs";
+import music from "~/configs/music";
 interface AudioContextType {
   audio: HTMLAudioElement;
   audioState: any;
   controls: {
     play: () => Promise<void> | void;
     pause: () => Promise<void> | void;
-    toggle: () => Promise<void> | void;
+    toggle: (play?: boolean) => Promise<void> | void;
     volume: (value: number) => void;
   };
   audioRef: React.RefObject<HTMLAudioElement>;

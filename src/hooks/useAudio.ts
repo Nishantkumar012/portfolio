@@ -34,11 +34,12 @@ export function useAudio(props: HTMLAudioProps) {
       }
     },
 
-    toggle: (): Promise<void> | void => {
+    toggle: (play?: boolean): Promise<void> | void => {
       const el = ref.current;
       if (el) {
-        const promise = state.playing ? el.pause() : el.play();
-        setState({ ...state, playing: !state.playing });
+        const shouldPlay = play !== undefined ? play : !state.playing;
+        const promise = shouldPlay ? el.play() : el.pause();
+        setState({ ...state, playing: shouldPlay });
         return promise;
       }
     },
