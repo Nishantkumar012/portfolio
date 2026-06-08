@@ -237,6 +237,7 @@ export default function Desktop(props: MacActions) {
         z: state.appsZ[app.id] ?? 2,
         max: state.maxApps[app.id] ?? false,
         min: state.minApps[app.id] ?? false,
+        titlebar: app.titlebar,
         close: closeApp,
         setMax: setAppMax,
         setMin: minimizeApp,

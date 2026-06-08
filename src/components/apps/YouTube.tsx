@@ -1,6 +1,8 @@
 import React from "react";
 import { useStore } from "~/stores";
 
+const YOUTUBE_URL = import.meta.env.VITE_YOUTUBE_URL ?? "https://streamifyhub.vercel.app";
+
 export default function YouTube() {
   const dark = useStore((state) => state.dark);
 
@@ -12,11 +14,11 @@ export default function YouTube() {
         overflow: "hidden",
         fontFamily:
           "'SF Pro Text', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', sans-serif",
-        backgroundColor: dark ? "#1c1c1e" : "#ffffff", // Standard macOS app backgrounds
+        backgroundColor: dark ? "#1c1c1e" : "#ffffff",
       }}
     >
       <iframe
-        src="https://streamifyhub.vercel.app/"
+        src={YOUTUBE_URL}
         title="YouTube"
         style={{
           width: "100%",

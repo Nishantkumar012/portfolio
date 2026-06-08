@@ -14,4 +14,5 @@ export interface AppsData {
   content?: JSX.Element;
   link?: string;
   hideFromDock?: boolean;
+  titlebar?: "default" | "transparent" | "hidden";
 }
