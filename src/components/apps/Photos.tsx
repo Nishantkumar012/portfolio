@@ -48,16 +48,163 @@ export default function Photos() {
 
   return (
     <div
+      className="photos-app-container"
       style={{
         display: "flex",
         height: "100%",
         background: "var(--c-bg)",
         borderRadius: "0 0 14px 14px",
         overflow: "hidden",
+        position: "relative",
       }}
     >
+      <style>{`
+        .mobile-only { display: none !important; }
+        .mobile-only-block { display: none !important; }
+        
+        @media (max-width: 768px) {
+          .mobile-only { display: flex !important; }
+          .mobile-only-block { display: block !important; }
+          .desktop-only { display: none !important; }
+          
+          .photos-sidebar { display: none !important; }
+          .photos-main-area { background: #F2F2F7 !important; }
+          
+          .photos-header {
+            padding: 24px 20px 8px 20px !important;
+            border-bottom: none !important;
+            background: #F2F2F7 !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            position: relative;
+            display: flex !important;
+          }
+          
+          .photos-header-title {
+            font-size: 28px !important;
+            font-weight: 700 !important;
+            font-family: system-ui, -apple-system, sans-serif !important;
+            color: #000 !important;
+            margin-bottom: 2px !important;
+            line-height: 1.2 !important;
+          }
+          
+          .photos-header-subtitle {
+            font-size: 13px !important;
+            color: #8E8E93 !important;
+            margin-left: 0 !important;
+          }
+          
+          .photos-select-btn {
+            position: absolute;
+            top: 24px;
+            right: 20px;
+            background: rgba(0,0,0,0.06) !important;
+            color: #007AFF !important;
+            border-radius: 20px !important;
+            padding: 4px 14px !important;
+            font-size: 15px !important;
+            font-weight: 500 !important;
+            border: none;
+            cursor: pointer;
+          }
+          
+          .photos-mobile-chips {
+            flex-direction: row !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            padding: 8px 20px 16px 20px !important;
+            gap: 8px !important;
+            background: #F2F2F7 !important;
+            width: 100%;
+            box-sizing: border-box;
+          }
+          .photos-mobile-chips::-webkit-scrollbar { display: none; }
+          
+          .photos-chip {
+            background: #E5E5EA !important;
+            border-radius: 16px !important;
+            font-size: 13px !important;
+            padding: 6px 14px !important;
+            white-space: nowrap !important;
+            border: none !important;
+            color: #000 !important;
+            font-weight: 500 !important;
+            cursor: pointer;
+          }
+          .photos-chip.active {
+            background: #000 !important;
+            color: #fff !important;
+          }
+          
+          .photos-grid-container {
+            padding: 0 !important;
+            padding-bottom: 83px !important;
+          }
+          
+          .photos-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 2px !important;
+          }
+          
+          .photo-thumb {
+            aspect-ratio: 1/1 !important;
+            border-radius: 4px !important;
+            box-shadow: none !important;
+            outline: none !important;
+          }
+          .photo-thumb:active {
+            transform: scale(0.97) !important;
+            transition: transform 0.1s !important;
+          }
+          
+          .photo-hover-label, .photo-like-badge { display: none !important; }
+          
+          .mobile-tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 83px;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 0.5px solid rgba(0,0,0,0.1);
+            justify-content: space-around;
+            padding-top: 10px;
+            padding-bottom: 24px;
+            z-index: 50;
+            display: flex !important;
+            box-sizing: border-box;
+          }
+          
+          .mobile-tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 500;
+            color: #8E8E93;
+            cursor: pointer;
+            width: 80px;
+          }
+          
+          .mobile-tab-item.active { color: #007AFF; }
+          
+          @media (prefers-color-scheme: dark) {
+            .photos-main-area, .photos-header, .photos-mobile-chips { background: #000 !important; }
+            .photos-header-title { color: #fff !important; }
+            .photos-chip { background: #333 !important; color: #fff !important; }
+            .photos-chip.active { background: #fff !important; color: #000 !important; }
+            .mobile-tab-bar { background: rgba(0,0,0,0.85); border-top: 0.5px solid rgba(255,255,255,0.1); }
+            .photos-select-btn { background: rgba(255,255,255,0.2) !important; }
+          }
+        }
+      `}</style>
       {/* Sidebar */}
       <div
+        className="photos-sidebar"
         style={{
           width: "180px",
           flexShrink: 0,
@@ -143,18 +290,23 @@ export default function Photos() {
       </div>
 
       {/* Grid */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", background: "var(--c-bg)" }}>
+      <div className="photos-main-area" style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", background: "var(--c-bg)" }}>
         <div
+          className="photos-header"
           style={{
             padding: "10px 16px",
             borderBottom: "0.5px solid var(--c-border)",
             fontSize: "16px",
             fontWeight: 700,
             color: "var(--c-text)",
+            display: "block"
           }}
         >
-          {ALBUMS.find((a) => a.id === activeAlbum)?.label}
+          <span className="desktop-only">{ALBUMS.find((a) => a.id === activeAlbum)?.label}</span>
+          <span className="mobile-only-block photos-header-title">Library</span>
+          
           <span
+            className="photos-header-subtitle"
             style={{
               marginLeft: 8,
               fontSize: "12px",
@@ -164,9 +316,23 @@ export default function Photos() {
           >
             {displayed.length} items
           </span>
+          <button className="mobile-only-block photos-select-btn">Select</button>
+        </div>
+
+        <div className="mobile-only photos-mobile-chips">
+          {ALBUMS.map((album) => (
+            <button
+              key={album.id}
+              className={`photos-chip ${activeAlbum === album.id ? "active" : ""}`}
+              onClick={() => setActiveAlbum(album.id)}
+            >
+              {album.label}
+            </button>
+          ))}
         </div>
 
         <div
+          className="photos-grid-container photos-grid"
           style={{
             flex: 1,
             overflowY: "auto",
@@ -227,7 +393,7 @@ export default function Photos() {
                 </span>
               </div>
               {photo.liked && (
-                <div style={{ position: "absolute", top: 5, right: 5 }}>
+                <div className="photo-like-badge" style={{ position: "absolute", top: 5, right: 5 }}>
                   <span className="i-ph:heart-fill" style={{ width: "13px", height: "13px", color: "var(--system-pink, #FF2D55)", filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))" }} />
                 </div>
               )}
@@ -344,6 +510,30 @@ export default function Photos() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile Tab Bar */}
+      <div className="mobile-only mobile-tab-bar">
+        <div 
+          className="mobile-tab-item active"
+          onClick={() => { if (window.innerWidth <= 768) setActiveAlbum("recents"); }}
+        >
+          <span className="i-ph:images mobile-tab-icon" style={{ width: "24px", height: "24px" }} />
+          <span>Library</span>
+        </div>
+        <div 
+          className="mobile-tab-item"
+          onClick={() => { if (window.innerWidth <= 768) setActiveAlbum("projects"); }}
+        >
+          <span className="i-ph:squares-four mobile-tab-icon" style={{ width: "24px", height: "24px" }} />
+          <span>Collections</span>
+        </div>
+        <div 
+          className="mobile-tab-item"
+        >
+          <span className="i-ph:magnifying-glass mobile-tab-icon" style={{ width: "24px", height: "24px" }} />
+          <span>Search</span>
+        </div>
+      </div>
     </div>
   );
 }
