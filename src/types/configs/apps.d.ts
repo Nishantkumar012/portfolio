@@ -15,4 +15,8 @@ export interface AppsData {
   link?: string;
   hideFromDock?: boolean;
   titlebar?: "default" | "transparent" | "hidden";
+  hideOnMobile?: boolean;
+  mobileTitle?: string;
+  mobileImg?: string;
+  dockOnMobile?: boolean;
 }

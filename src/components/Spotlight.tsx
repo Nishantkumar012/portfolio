@@ -375,7 +375,7 @@ export default function Spotlight({
         grid="~ cols-8 sm:cols-11"
       >
         <div className="col-start-1 col-span-1 flex-center">
-          <span className="i-ph:magnifying-glass ml-1 text-c-600 text-[28px]" />
+          <img src="/img/icons/sf-icons/search.svg" alt="Search" className="ml-1 opacity-60 dark:invert" style={{ width: "24px", height: "24px" }} />
         </div>
         <input
           ref={inputRef}
@@ -432,7 +432,7 @@ export default function Spotlight({
           className="px-4 pb-2 flex items-baseline gap-2"
           style={{ borderBottom: '1px solid var(--lg-border-subtle)' }}
         >
-          <span className="i-ph:calculator text-c-500 text-lg" />
+          <img src="/img/icons/sf-icons/calculator.svg" alt="Calculator" className="dark:invert opacity-60" style={{ width: "18px", height: "18px" }} />
           <span className="text-c-500 text-sm">{searchText} =</span>
           <span className="text-c-black font-semibold text-2xl">{mathResult}</span>
         </div>

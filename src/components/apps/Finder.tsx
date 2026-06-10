@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useWindowSize } from "~/hooks/useWindowSize";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type ViewMode = "icons" | "list" | "columns";
@@ -25,11 +26,11 @@ const FILESYSTEM: Record<string, FileItem[]> = {
       name: "Desktop",
       kind: "folder",
       date: "Today",
-      icon: "i-ph:desktop",
+      icon: "/img/icons/sf-icons/desktop.svg",
       color: "#4A90E2",
       children: [
-        { id: "readme", name: "README.md", kind: "file", ext: "md", size: "2 KB", date: "Today", icon: "i-ph:file-text" },
-        { id: "notes", name: "notes.txt", kind: "file", ext: "txt", size: "1 KB", date: "Yesterday", icon: "i-ph:note-pencil" },
+        { id: "readme", name: "README.md", kind: "file", ext: "md", size: "2 KB", date: "Today", icon: "/img/icons/sf-icons/doc.svg" },
+        { id: "notes", name: "notes.txt", kind: "file", ext: "txt", size: "1 KB", date: "Yesterday", icon: "/img/icons/sf-icons/doc.svg" },
       ],
     },
     {
@@ -37,12 +38,12 @@ const FILESYSTEM: Record<string, FileItem[]> = {
       name: "Documents",
       kind: "folder",
       date: "Yesterday",
-      icon: "i-ph:folder",
+      icon: "/img/icons/sf-icons/folder.svg",
       color: "#F5A623",
       children: [
-        { id: "resume", name: "Akash_Resume.pdf", kind: "file", ext: "pdf", size: "340 KB", date: "Jun 1", icon: "i-ph:file-pdf" },
-        { id: "cover", name: "CoverLetter.docx", kind: "file", ext: "docx", size: "28 KB", date: "Jun 2", icon: "i-ph:file-text" },
-        { id: "projects-folder", name: "Projects", kind: "folder", date: "Jun 3", icon: "i-ph:folder", color: "#F5A623" },
+        { id: "resume", name: "Akash_Resume.pdf", kind: "file", ext: "pdf", size: "340 KB", date: "Jun 1", icon: "/img/icons/sf-icons/doc.svg" },
+        { id: "cover", name: "CoverLetter.docx", kind: "file", ext: "docx", size: "28 KB", date: "Jun 2", icon: "/img/icons/sf-icons/doc.svg" },
+        { id: "projects-folder", name: "Projects", kind: "folder", date: "Jun 3", icon: "/img/icons/sf-icons/folder.svg", color: "#F5A623" },
       ],
     },
     {
@@ -50,11 +51,11 @@ const FILESYSTEM: Record<string, FileItem[]> = {
       name: "Downloads",
       kind: "folder",
       date: "Today",
-      icon: "i-ph:download-simple",
+      icon: "/img/icons/sf-icons/download.svg",
       color: "#7B68EE",
       children: [
-        { id: "react-zip", name: "react-18.zip", kind: "file", ext: "zip", size: "2.1 MB", date: "Today", icon: "i-ph:file-zip" },
-        { id: "wallpaper", name: "macOS_Tahoe.jpg", kind: "file", ext: "jpg", size: "4.8 MB", date: "Today", icon: "i-ph:image" },
+        { id: "react-zip", name: "react-18.zip", kind: "file", ext: "zip", size: "2.1 MB", date: "Today", icon: "/img/icons/sf-icons/doc.svg" },
+        { id: "wallpaper", name: "macOS_Tahoe.jpg", kind: "file", ext: "jpg", size: "4.8 MB", date: "Today", icon: "/img/icons/sf-icons/image.svg" },
       ],
     },
     {
@@ -62,10 +63,10 @@ const FILESYSTEM: Record<string, FileItem[]> = {
       name: "Pictures",
       kind: "folder",
       date: "Jun 3",
-      icon: "i-ph:image",
+      icon: "/img/icons/sf-icons/image.svg",
       color: "#FF6B6B",
       children: [
-        { id: "avatar", name: "avatar.png", kind: "file", ext: "png", size: "120 KB", date: "May 28", icon: "i-ph:image" },
+        { id: "avatar", name: "avatar.png", kind: "file", ext: "png", size: "120 KB", date: "May 28", icon: "/img/icons/sf-icons/image.svg" },
       ],
     },
     {
@@ -73,11 +74,11 @@ const FILESYSTEM: Record<string, FileItem[]> = {
       name: "Music",
       kind: "folder",
       date: "Jun 2",
-      icon: "i-ph:music-note",
+      icon: "/img/icons/sf-icons/sound.svg",
       color: "#FF2D55",
       children: [
-        { id: "faded", name: "faded.mp3", kind: "file", ext: "mp3", size: "3.5 MB", date: "May 20", icon: "i-ph:music-note" },
-        { id: "samantha", name: "Samantha Legacy.wav", kind: "file", ext: "wav", size: "280 KB", date: "Jun 1", icon: "i-ph:music-note" },
+        { id: "faded", name: "faded.mp3", kind: "file", ext: "mp3", size: "3.5 MB", date: "May 20", icon: "/img/icons/sf-icons/sound.svg" },
+        { id: "samantha", name: "Samantha Legacy.wav", kind: "file", ext: "wav", size: "280 KB", date: "Jun 1", icon: "/img/icons/sf-icons/sound.svg" },
       ],
     },
     {
@@ -85,11 +86,11 @@ const FILESYSTEM: Record<string, FileItem[]> = {
       name: "Repositories",
       kind: "folder",
       date: "Today",
-      icon: "i-ph:laptop",
+      icon: "/img/icons/sf-icons/desktop.svg",
       color: "#34C759",
       children: [
-        { id: "macos-portfolio", name: "macOS-Portfolio", kind: "folder", date: "Today", icon: "i-ph:folder", color: "#34C759" },
-        { id: "lib-project", name: "lib", kind: "folder", date: "Jun 3", icon: "i-ph:folder", color: "#34C759" },
+        { id: "macos-portfolio", name: "macOS-Portfolio", kind: "folder", date: "Today", icon: "/img/icons/sf-icons/folder.svg", color: "#34C759" },
+        { id: "lib-project", name: "lib", kind: "folder", date: "Jun 3", icon: "/img/icons/sf-icons/folder.svg", color: "#34C759" },
       ],
     },
   ],
@@ -99,33 +100,33 @@ const SIDEBAR_SECTIONS = [
   {
     title: "",
     items: [
-      { id: "recents", label: "Recents", icon: "i-ph:clock" },
-      { id: "shared", label: "Shared", icon: "i-ph:folder-user" },
+      { id: "recents", label: "Recents", icon: "/img/icons/sf-icons/clock.svg" },
+      { id: "shared", label: "Shared", icon: "/img/icons/sf-icons/shared.svg" },
     ],
   },
   {
     title: "Favorites",
     items: [
-      { id: "home", label: "Applications", icon: "i-ph:squares-four" },
-      { id: "desktop", label: "Desktop", icon: "i-ph:desktop", parent: "home" },
-      { id: "documents", label: "Documents", icon: "i-ph:folder", parent: "home" },
-      { id: "downloads", label: "Downloads", icon: "i-ph:download-simple", parent: "home" },
-      { id: "pictures", label: "Screenshots", icon: "i-ph:selection", parent: "home" },
+      { id: "home", label: "Applications", icon: "/img/icons/sf-icons/applications.svg" },
+      { id: "desktop", label: "Desktop", icon: "/img/icons/sf-icons/desktop.svg", parent: "home" },
+      { id: "documents", label: "Documents", icon: "/img/icons/sf-icons/doc.svg", parent: "home" },
+      { id: "downloads", label: "Downloads", icon: "/img/icons/sf-icons/download.svg", parent: "home" },
+      { id: "pictures", label: "Screenshots", icon: "/img/icons/sf-icons/image.svg", parent: "home" },
     ],
   },
   {
     title: "iCloud",
     items: [
-      { id: "icloud-drive", label: "iCloud Drive", icon: "i-ph:cloud" },
+      { id: "icloud-drive", label: "iCloud Drive", icon: "/img/icons/sf-icons/cloud.svg" },
     ],
   },
   {
     title: "Locations",
     items: [
-      { id: "macintosh-hd", label: "Macintosh HD", icon: "i-ph:hard-drive" },
-      { id: "airdrop", label: "AirDrop", icon: "i-ph:rss" },
-      { id: "network", label: "Network", icon: "i-ph:share-network" },
-      { id: "trash", label: "Trash", icon: "i-ph:trash" },
+      { id: "macintosh-hd", label: "Macintosh HD", icon: "/img/icons/sf-icons/hard-drive.svg" },
+      { id: "airdrop", label: "AirDrop", icon: "/img/icons/sf-icons/airdrop.svg" },
+      { id: "network", label: "Network", icon: "/img/icons/sf-icons/network.svg" },
+      { id: "trash", label: "Trash", icon: "/img/icons/sf-icons/trash.svg" },
     ],
   },
   {
@@ -148,7 +149,7 @@ const FileIcon = ({ item, size = 56 }: { item: FileItem; size?: number }) => {
     } else if (item.id === "home") {
       customImg = "/img/icons/folder-home.png";
     }
-    
+
     return (
       <img
         src={customImg}
@@ -182,6 +183,10 @@ export default function Finder() {
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
+
+  const size = useWindowSize();
+  const isMobile = size.winWidth < 768;
+  const [mobileView, setMobileView] = useState<"sidebar" | "content">("content");
 
   // Get current items
   const currentItems = (): FileItem[] => {
@@ -228,7 +233,7 @@ export default function Finder() {
     setSelected(null);
   };
 
-  const goForward = () => {};
+  const goForward = () => { };
 
   const locationLabel = () => {
     if (location === "home") return "Akash";
@@ -246,6 +251,7 @@ export default function Finder() {
     if (id === "google-drive" || id === "icloud-drive" || id === "macintosh-hd") {
       setLocation("home");
       setPathStack(["home"]);
+      setMobileView("content");
       return;
     }
     if (parent === "home") {
@@ -256,6 +262,7 @@ export default function Finder() {
       setLocation("home");
     }
     setSelected(null);
+    setMobileView("content");
   };
 
   // ── Render items ──────────────────────────────────────────────────────────
@@ -351,12 +358,13 @@ export default function Finder() {
                     {item.name}
                   </span>
                   {item.kind === "folder" && (
-                    <span
-                      className="i-ph:caret-right"
+                    <div
                       style={{
                         width: "11px",
                         height: "11px",
-                        color: highlight ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.35)",
+                        backgroundColor: highlight ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.35)",
+                        WebkitMask: `url(/img/icons/sf-icons/caret-right.svg) center/contain no-repeat`,
+                        mask: `url(/img/icons/sf-icons/caret-right.svg) center/contain no-repeat`,
                       }}
                     />
                   )}
@@ -482,8 +490,8 @@ export default function Finder() {
               selected === item.id
                 ? "rgba(0,122,255,0.15)"
                 : i % 2 === 0
-                ? "transparent"
-                : "rgba(0,0,0,0.015)",
+                  ? "transparent"
+                  : "rgba(0,0,0,0.015)",
             transition: "background 0.1s ease",
             borderRadius: "4px",
           }}
@@ -516,7 +524,7 @@ export default function Finder() {
   );
 
   // ── Toolbar ───────────────────────────────────────────────────────────────
-  const toolbarBtn = (label: string, icon: string, active = false, action = () => {}) => (
+  const toolbarBtn = (label: string, icon: string, active = false, action = () => { }) => (
     <motion.button
       title={label}
       onClick={action}
@@ -545,7 +553,7 @@ export default function Finder() {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        
+
         background: "rgba(248,248,248,0.98)",
         borderRadius: "0 0 14px 14px",
         overflow: "hidden",
@@ -561,8 +569,26 @@ export default function Finder() {
           borderBottom: "0.5px solid rgba(0,0,0,0.1)",
           background: "rgba(245,245,247,0.98)",
           backdropFilter: "blur(20px)",
+          flexWrap: isMobile ? "wrap" : "nowrap",
         }}
       >
+        {isMobile && (
+          <button
+            onClick={() => setMobileView(mobileView === "sidebar" ? "content" : "sidebar")}
+            style={{
+               background: "none",
+               border: "none",
+               cursor: "pointer",
+               fontSize: "14px",
+               fontWeight: 500,
+               color: "#007AFF",
+               padding: "4px 8px",
+            }}
+          >
+            {mobileView === "sidebar" ? "Done" : "Browse"}
+          </button>
+        )}
+        
         {/* Back / Forward */}
         <button
           onClick={goBack}
@@ -637,7 +663,7 @@ export default function Finder() {
             gap: "4px",
           }}
         >
-          <span className="i-ph:magnifying-glass" style={{ width: "11px", height: "11px", opacity: 0.5 }} />
+          <div style={{ width: "11px", height: "11px", opacity: 0.5, backgroundColor: "currentColor", WebkitMask: "url(/img/icons/sf-icons/magnifying-glass.svg) center/contain no-repeat", mask: "url(/img/icons/sf-icons/magnifying-glass.svg) center/contain no-repeat" }} />
           <input
             placeholder="Search"
             value={search}
@@ -701,18 +727,19 @@ export default function Finder() {
       {/* ── Body ── */}
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
         {/* Sidebar */}
-        <div
-          style={{
-            width: "160px",
-            flexShrink: 0,
-            borderRight: "var(--lg-border)",
-            background: "var(--lg-bg-tinted)",
-            backdropFilter: "var(--lg-blur-light)",
-            WebkitBackdropFilter: "var(--lg-blur-light)",
-            overflowY: "auto",
-            padding: "8px 0",
-          }}
-        >
+        {(!isMobile || mobileView === "sidebar") && (
+          <div
+            style={{
+              width: isMobile ? "100%" : "160px",
+              flexShrink: 0,
+              borderRight: isMobile ? "none" : "var(--lg-border)",
+              background: "var(--lg-bg-tinted)",
+              backdropFilter: "var(--lg-blur-light)",
+              WebkitBackdropFilter: "var(--lg-blur-light)",
+              overflowY: "auto",
+              padding: "8px 0",
+            }}
+          >
           {SIDEBAR_SECTIONS.map((section) => (
             <div key={section.title} style={{ marginBottom: "4px" }}>
               <div
@@ -768,9 +795,15 @@ export default function Finder() {
                     {item.tagColor ? (
                       <div style={{ width: 10, height: 10, borderRadius: "50%", background: item.tagColor, flexShrink: 0 }} />
                     ) : (
-                      <span
-                        className={item.icon}
-                        style={{ width: "13px", height: "13px", flexShrink: 0, color: active ? "#007AFF" : "rgba(0,0,0,0.5)" }}
+                      <div
+                        style={{
+                          width: "14px",
+                          height: "14px",
+                          flexShrink: 0,
+                          backgroundColor: active ? "#007AFF" : "rgba(0,0,0,0.5)",
+                          WebkitMask: `url(${item.icon}) center/contain no-repeat`,
+                          mask: `url(${item.icon}) center/contain no-repeat`,
+                        }}
                       />
                     )}
                     <span
@@ -791,8 +824,10 @@ export default function Finder() {
             </div>
           ))}
         </div>
+        )}
 
         {/* Content */}
+        {(!isMobile || mobileView === "content") && (
         <div style={{ flex: 1, overflowY: "auto", overflowX: viewMode === "columns" && !search.trim() ? "auto" : "hidden" }}>
           <AnimatePresence mode="wait">
             <motion.div
@@ -806,13 +841,14 @@ export default function Finder() {
               {search.trim()
                 ? renderIcons()
                 : viewMode === "columns"
-                ? renderColumns()
-                : viewMode === "list"
-                ? renderList()
-                : renderIcons()}
+                  ? renderColumns()
+                  : viewMode === "list"
+                    ? renderList()
+                    : renderIcons()}
             </motion.div>
           </AnimatePresence>
         </div>
+        )}
       </div>
 
       {/* ── Path bar ── */}
@@ -833,7 +869,7 @@ export default function Finder() {
             seg === "home"
               ? "Akash"
               : FILESYSTEM.home.find((f) => f.id === seg)?.name ??
-                seg;
+              seg;
           return (
             <React.Fragment key={seg}>
               {i > 0 && <span>›</span>}

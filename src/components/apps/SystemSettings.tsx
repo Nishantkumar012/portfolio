@@ -1,18 +1,41 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { useStore } from "~/stores";
+import { useWindowSize } from "~/hooks";
 
 type SettingsPanel =
   | "general"
+  | "accessibility"
   | "appearance"
+  | "control-center"
+  | "siri"
+  | "desktop"
+  | "displays"
+  | "spotlight"
   | "wallpaper"
-  | "dock"
   | "notifications"
   | "sound"
-  | "displays"
+  | "focus"
+  | "screen-time"
+  | "privacy"
+  | "touch-id"
+  | "users"
+  | "internet-accounts"
+  | "game-center"
+  | "wallet"
+  | "keyboard"
+  | "mouse"
+  | "trackpad"
+  | "printers"
+  | "about"
+  | "weather"
   | "battery"
   | "storage"
+  | "dock"
   | "cloud"
-  | "privacy"
-  | "about";
+  | "network"
+  | "bluetooth"
+  | "wifi";
 
 interface PanelItem {
   id: SettingsPanel;
@@ -22,18 +45,50 @@ interface PanelItem {
 }
 
 const PANEL_ITEMS: PanelItem[] = [
-  { id: "general", label: "General", icon: "i-ph:gear-six", color: "#8E8E93" },
-  { id: "appearance", label: "Appearance", icon: "i-ph:palette", color: "#FF9500" },
-  { id: "wallpaper", label: "Wallpaper", icon: "i-ph:image-square", color: "#007AFF" },
-  { id: "dock", label: "Dock & Menu Bar", icon: "i-ph:app-window", color: "#5AC8FA" },
-  { id: "notifications", label: "Notifications", icon: "i-ph:bell", color: "#FF3B30" },
-  { id: "sound", label: "Sound", icon: "i-ph:speaker-high", color: "#34C759" },
-  { id: "displays", label: "Displays", icon: "i-ph:monitor", color: "#6E6E73" },
-  { id: "battery", label: "Battery", icon: "i-ph:battery-full", color: "#34C759" },
-  { id: "storage", label: "Storage", icon: "i-ph:hard-drives", color: "#5856D6" },
-  { id: "cloud", label: "Cloud Storage", icon: "i-ph:cloud", color: "#007AFF" },
-  { id: "privacy", label: "Privacy & Security", icon: "i-ph:shield-check", color: "#FF2D55" },
-  { id: "about", label: "About This Mac", icon: "i-ph:info", color: "#6E6E73" },
+  { id: "wifi", label: "Wi-Fi", icon: "/img/icons/sf-icons/wifi.svg", color: "#007AFF" },
+  { id: "bluetooth", label: "Bluetooth", icon: "/img/icons/sf-icons/bluetooth.svg", color: "#007AFF" },
+  { id: "network", label: "Network", icon: "/img/icons/sf-icons/network.svg", color: "#007AFF" },
+  { id: "notifications", label: "Notifications", icon: "/img/icons/sf-icons/notifications.svg", color: "#FF3B30" },
+  { id: "sound", label: "Sound", icon: "/img/icons/sf-icons/sound.svg", color: "#FF2D55" },
+  { id: "focus", label: "Focus", icon: "/img/icons/sf-icons/focus.svg", color: "#5856D6" },
+  { id: "screen-time", label: "Screen Time", icon: "/img/icons/sf-icons/screen-time.svg", color: "#5856D6" },
+  { id: "general", label: "General", icon: "/img/icons/sf-icons/general.svg", color: "#8E8E93" },
+  { id: "appearance", label: "Appearance", icon: "/img/icons/sf-icons/appearance.svg", color: "#000000" },
+  { id: "accessibility", label: "Accessibility", icon: "/img/icons/sf-icons/accessibility.svg", color: "#007AFF" },
+  { id: "control-center", label: "Control Center", icon: "/img/icons/sf-icons/control-center.svg", color: "#8E8E93" },
+  { id: "siri", label: "Siri & Spotlight", icon: "/img/icons/sf-icons/siri.svg", color: "#AF52DE" },
+  { id: "spotlight", label: "Spotlight", icon: "/img/icons/sf-icons/spotlight.svg", color: "#8E8E93" },
+  { id: "privacy", label: "Privacy & Security", icon: "/img/icons/sf-icons/privacy.svg", color: "#007AFF" },
+  { id: "desktop", label: "Desktop", icon: "/img/icons/sf-icons/desktop.svg", color: "#6E6E73" },
+  { id: "dock", label: "Dock & Menu Bar", icon: "/img/icons/sf-icons/dock.svg", color: "#5AC8FA" },
+  { id: "displays", label: "Displays", icon: "/img/icons/sf-icons/displays.svg", color: "#007AFF" },
+  { id: "wallpaper", label: "Wallpaper", icon: "/img/icons/sf-icons/wallpaper.svg", color: "#5AC8FA" },
+  { id: "battery", label: "Battery", icon: "/img/icons/sf-icons/battery.svg", color: "#34C759" },
+  { id: "storage", label: "Storage", icon: "/img/icons/sf-icons/storage.svg", color: "#5856D6" },
+  { id: "cloud", label: "Cloud Storage", icon: "/img/icons/sf-icons/cloud.svg", color: "#007AFF" },
+  { id: "touch-id", label: "Touch ID & Password", icon: "/img/icons/sf-icons/touch-id.svg", color: "#FF2D55" },
+  { id: "users", label: "Users & Groups", icon: "/img/icons/sf-icons/users.svg", color: "#8E8E93" },
+  { id: "internet-accounts", label: "Internet Accounts", icon: "/img/icons/sf-icons/internet-accounts.svg", color: "#007AFF" },
+  { id: "game-center", label: "Game Center", icon: "/img/icons/sf-icons/game-center.svg", color: "#34C759" },
+  { id: "wallet", label: "Wallet & Apple Pay", icon: "/img/icons/sf-icons/wallet.svg", color: "#1c1c1e" },
+  { id: "keyboard", label: "Keyboard", icon: "/img/icons/sf-icons/keyboard.svg", color: "#8E8E93" },
+  { id: "mouse", label: "Mouse", icon: "/img/icons/sf-icons/mouse.svg", color: "#8E8E93" },
+  { id: "trackpad", label: "Trackpad", icon: "/img/icons/sf-icons/trackpad.svg", color: "#8E8E93" },
+  { id: "printers", label: "Printers & Scanners", icon: "/img/icons/sf-icons/printer.svg", color: "#8E8E93" },
+  { id: "weather", label: "Weather", icon: "/img/icons/sf-icons/sun.max.svg", color: "#007AFF" },
+  { id: "about", label: "About", icon: "/img/icons/sf-icons/about.svg", color: "#8E8E93" }
+];
+
+const PANEL_GROUPS = [
+  ["screen-time"],
+  ["general", "accessibility", "privacy"],
+  ["touch-id"],
+  ["network", "wifi", "bluetooth"],
+  ["notifications", "sound", "focus"],
+  ["desktop", "dock", "displays", "wallpaper", "battery", "storage", "cloud"],
+  ["users", "internet-accounts", "game-center", "wallet"],
+  ["keyboard", "mouse", "trackpad", "printers"],
+  ["weather", "about"]
 ];
 
 // ─── Shared sub-components ────────────────────────────────────────────────────
@@ -665,7 +720,7 @@ const SoundPanel = () => {
       <Card>
         <Row label="Output Volume">
           <div style={{ display: "flex", alignItems: "center", gap: "8px", flex: 1, justifyContent: "flex-end" }}>
-            <span className="i-ph:speaker-low" style={{ width: "16px", height: "16px", opacity: 0.5 }} />
+            <img src="/img/icons/sf-icons/audio.svg" alt="audio" style={{ width: "16px", height: "16px", filter: dark ? "invert(1)" : "none", opacity: 0.5 }} />
             <input
               type="range"
               min="0"
@@ -674,7 +729,7 @@ const SoundPanel = () => {
               onChange={(e) => setVolume(Number(e.target.value))}
               style={{ width: "120px", accentColor: "#007AFF" }}
             />
-            <span className="i-ph:speaker-high" style={{ width: "16px", height: "16px", opacity: 0.5 }} />
+            <img src="/img/icons/sf-icons/sound.svg" alt="sound" style={{ width: "16px", height: "16px", filter: dark ? "invert(1)" : "none", opacity: 0.5 }} />
             <span style={{ fontSize: "11px", color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", minWidth: "30px", textAlign: "right" }}>
               {volume}%
             </span>
@@ -788,7 +843,7 @@ const DisplaysPanel = () => {
       <Card>
         <Row label="Brightness">
           <div style={{ display: "flex", alignItems: "center", gap: "8px", flex: 1, justifyContent: "flex-end" }}>
-            <span className="i-ph:sun-dim" style={{ width: "16px", height: "16px", opacity: 0.5 }} />
+            <img src="/img/icons/sf-icons/display-brightness.svg" alt="dim" style={{ width: "16px", height: "16px", filter: dark ? "invert(1)" : "none", opacity: 0.5 }} />
             <input
               type="range"
               min="10"
@@ -797,7 +852,7 @@ const DisplaysPanel = () => {
               onChange={(e) => setBrightness(Number(e.target.value))}
               style={{ width: "120px", accentColor: "#007AFF" }}
             />
-            <span className="i-ph:sun" style={{ width: "16px", height: "16px", opacity: 0.5 }} />
+            <img src="/img/icons/sf-icons/sun.svg" alt="sun" style={{ width: "16px", height: "16px", filter: dark ? "invert(1)" : "none", opacity: 0.5 }} />
             <span style={{ fontSize: "11px", color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", minWidth: "30px", textAlign: "right" }}>
               {brightness}%
             </span>
@@ -1023,7 +1078,7 @@ const CloudPanel = () => {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ fontSize: "24px" }}>
-                <span className="i-ph:cloud" style={{ width: "24px", height: "24px", color: "#007AFF" }} />
+                <img src="/img/icons/sf-icons/cloud.svg" alt="Google Drive" style={{ width: "24px", height: "24px", filter: dark ? "invert(1)" : "none" }} />
               </span>
               <div>
                 <div style={{ fontWeight: 600, fontSize: "13px", color: dark ? "#fff" : "#1c1c1e" }}>Google Drive</div>
@@ -1044,7 +1099,7 @@ const CloudPanel = () => {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ fontSize: "24px" }}>
-                <span className="i-ph:package" style={{ width: "24px", height: "24px", color: "#0061FE" }} />
+                <img src="/img/icons/sf-icons/cloud.svg" alt="Dropbox" style={{ width: "24px", height: "24px", filter: dark ? "invert(1)" : "none" }} />
               </span>
               <div>
                 <div style={{ fontWeight: 600, fontSize: "13px", color: dark ? "#fff" : "#1c1c1e" }}>Dropbox</div>
@@ -1062,7 +1117,7 @@ const CloudPanel = () => {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ fontSize: "24px" }}>
-                <span className="i-ph:cloud" style={{ width: "24px", height: "24px", color: "#0078D4" }} />
+                <img src="/img/icons/sf-icons/cloud.svg" alt="OneDrive" style={{ width: "24px", height: "24px", filter: dark ? "invert(1)" : "none" }} />
               </span>
               <div>
                 <div style={{ fontWeight: 600, fontSize: "13px", color: dark ? "#fff" : "#1c1c1e" }}>OneDrive</div>
@@ -1089,7 +1144,7 @@ const PrivacyPanel = () => {
     { name: "Microphone", icon: "i-ph:microphone", apps: ["FaceTime", "Safari", "Music"] },
     { name: "Location Services", icon: "i-ph:map-pin", apps: ["Safari", "Maps"] },
     { name: "Screen Recording", icon: "i-ph:record", apps: ["Terminal"] },
-    { name: "Full Disk Access", icon: "i-ph:folder", apps: ["Terminal"] },
+    { name: "Full Disk Access", icon: "/img/icons/sf-icons/folder.svg", apps: ["Terminal"] },
   ];
 
   const dark = useStore((s) => s.dark);
@@ -1124,7 +1179,7 @@ const PrivacyPanel = () => {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <span className={p.icon} style={{ width: "18px", height: "18px" }} />
+                {p.icon.startsWith("i-ph:") ? <span className={p.icon} style={{ width: "18px", height: "18px" }} /> : <img src={p.icon} alt={p.name} style={{ width: "18px", height: "18px", filter: dark ? "invert(1)" : "none" }} />}
                 <span style={{ fontSize: "13px", color: dark ? "#f5f5f7" : "#1c1c1e" }}>{p.name}</span>
               </div>
               <span style={{ fontSize: "12px", color: dark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)" }}>
@@ -1182,7 +1237,28 @@ const GenericPanel = ({ id }: { id: SettingsPanel }) => {
   return (
     <div style={{ padding: "24px", textAlign: "center", color: dark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "12px" }}>
-        <span className={PANEL_ITEMS.find((p) => p.id === id)?.icon} style={{ width: "48px", height: "48px" }} />
+        <div
+          style={{
+            width: "64px",
+            height: "64px",
+            borderRadius: "14px",
+            background: PANEL_ITEMS.find((p) => p.id === id)?.color || "#8E8E93",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+          }}
+        >
+          <div
+            style={{
+              width: "36px",
+              height: "36px",
+              backgroundColor: "#fff",
+              WebkitMask: `url(${PANEL_ITEMS.find((p) => p.id === id)?.icon}) center/contain no-repeat`,
+              mask: `url(${PANEL_ITEMS.find((p) => p.id === id)?.icon}) center/contain no-repeat`,
+            }}
+          />
+        </div>
       </div>
       <div style={{ fontSize: "14px", fontWeight: 600, color: dark ? "#fff" : "#1c1c1e", marginBottom: "4px" }}>
         {PANEL_ITEMS.find((p) => p.id === id)?.label}
@@ -1197,6 +1273,9 @@ export default function SystemSettings() {
   const [activePanel, setActivePanel] = useState<SettingsPanel>("appearance");
   const [search, setSearch] = useState("");
   const dark = useStore((s) => s.dark);
+  const size = useWindowSize();
+  const isMobile = size.winWidth < 768;
+  const [mobileView, setMobileView] = useState<"list" | "panel">("list");
 
   const filtered = search.trim()
     ? PANEL_ITEMS.filter((p) =>
@@ -1227,40 +1306,46 @@ export default function SystemSettings() {
       style={{
         display: "flex",
         height: "100%",
-        
+        flexDirection: isMobile ? "column" : "row",
         background: dark ? "rgba(30,30,30,0.95)" : "rgba(242,242,247,0.98)",
         color: dark ? "#f5f5f7" : "#1c1c1e",
-        borderRadius: "0 0 14px 14px",
+        borderRadius: isMobile ? "0" : "0 0 14px 14px",
         overflow: "hidden",
       }}
     >
-      {/* ── Sidebar ── */}
-      <div
-        style={{
-          width: "220px",
-          flexShrink: 0,
-          borderRight: dark ? "0.5px solid rgba(255,255,255,0.1)" : "var(--lg-border)",
-          background: dark ? "rgba(42,42,42,0.95)" : "var(--lg-bg-tinted)",
-          backdropFilter: "var(--lg-blur-light)",
-          WebkitBackdropFilter: "var(--lg-blur-light)",
-          display: "flex",
-          flexDirection: "column",
-          overflowY: "auto",
-        }}
-      >
-        {/* Search */}
-        <div style={{ padding: "10px 12px" }}>
+      {/* ── Sidebar / List View ── */}
+      {(!isMobile || mobileView === "list") && (
+        <div
+          style={{
+            width: isMobile ? "100%" : "220px",
+            flexShrink: 0,
+            borderRight: isMobile ? "none" : (dark ? "0.5px solid rgba(255,255,255,0.1)" : "var(--lg-border)"),
+            background: isMobile ? (dark ? "#000" : "#f2f2f7") : (dark ? "rgba(42,42,42,0.95)" : "var(--lg-bg-tinted)"),
+            backdropFilter: isMobile ? "none" : "var(--lg-blur-light)",
+            WebkitBackdropFilter: isMobile ? "none" : "var(--lg-blur-light)",
+            display: "flex",
+            flexDirection: "column",
+            overflowY: "auto",
+          }}
+        >
+          {isMobile && (
+            <div style={{ fontSize: "32px", fontWeight: 700, padding: "20px 16px 10px", color: dark ? "#fff" : "#000" }}>
+              Settings
+            </div>
+          )}
+          {/* Search */}
+          <div style={{ padding: isMobile ? "0 16px 16px" : "10px 12px" }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "6px",
-              background: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)",
-              borderRadius: "8px",
-              padding: "5px 10px",
+              gap: "8px",
+              background: isMobile ? (dark ? "#1c1c1e" : "#e3e3e8") : (dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)"),
+              borderRadius: isMobile ? "10px" : "8px",
+              padding: isMobile ? "8px 12px" : "5px 10px",
             }}
           >
-            <span className="i-ph:magnifying-glass" style={{ width: "12px", height: "12px", opacity: 0.5 }} />
+            <img src="/img/icons/sf-icons/search.svg" alt="search" style={{ width: "12px", height: "12px", filter: dark ? "invert(1)" : "none", opacity: 0.5 }} />
             <input
               placeholder="Search settings"
               value={search}
@@ -1278,117 +1363,264 @@ export default function SystemSettings() {
         </div>
 
         {/* Items */}
-        <div style={{ flex: 1 }}>
-          {filtered.map((item) => {
-            const active = activePanel === item.id;
-            return (
-              <motion.button
-                key={item.id}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => setActivePanel(item.id)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  padding: "7px 12px",
-                  background: active
-                    ? dark ? "rgba(0,122,255,0.2)" : "rgba(0,122,255,0.12)"
-                    : "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  borderRadius: "8px",
-                  margin: "1px 6px",
-                  width: "calc(100% - 12px)",
-                  transition: "background 0.15s ease",
-                  position: "relative",
-                }}
-                onMouseEnter={(e) => {
-                  if (!active)
-                    (e.currentTarget as HTMLElement).style.background =
-                      dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!active)
-                    (e.currentTarget as HTMLElement).style.background = "transparent";
-                }}
-              >
-                {active && (
-                  <motion.div
-                    layoutId="settings-sidebar-indicator"
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      top: "18%",
-                      bottom: "18%",
-                      width: "2.5px",
-                      borderRadius: "2px",
-                      background: "#007AFF",
-                    }}
-                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                  />
-                )}
-                <div
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                    borderRadius: "7px",
-                    background: item.color,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                    boxShadow: `0 2px 8px ${item.color}60`,
-                  }}
-                >
-                  <span className={item.icon} style={{ width: "16px", height: "16px", color: "white" }} />
-                </div>
-                <span
-                  style={{
-                    fontSize: "13px",
-                    color: active ? "#007AFF" : dark ? "#f5f5f7" : "#1c1c1e",
-                    fontWeight: active ? 600 : 400,
-                    textAlign: "left",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {item.label}
-                </span>
-              </motion.button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* ── Content ── */}
-      <div style={{ flex: 1, overflowY: "auto" }}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activePanel}
-            initial={{ opacity: 0, x: 16, filter: "blur(2px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, x: -10, filter: "blur(2px)" }}
-            transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
-            style={{ paddingBottom: "24px" }}
-          >
-            {/* Panel title */}
+        <div style={{ flex: 1, paddingBottom: isMobile ? "20px" : "0" }}>
+          {isMobile && !search.trim() && (
             <div
               style={{
-                fontSize: "20px",
-                fontWeight: 700,
-                color: dark ? "#fff" : "#1c1c1e",
-                padding: "16px 16px 8px",
-                borderBottom: dark ? "0.5px solid rgba(255,255,255,0.1)" : "0.5px solid rgba(0,0,0,0.06)",
-                marginBottom: "4px",
+                background: dark ? "#1c1c1e" : "#fff",
+                borderRadius: "10px",
+                padding: "12px 16px",
+                display: "flex",
+                alignItems: "center",
+                gap: "14px",
+                margin: "0 16px 20px",
+                cursor: "pointer",
               }}
             >
-              {PANEL_ITEMS.find((p) => p.id === activePanel)?.label}
+              <div
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  borderRadius: "50%",
+                  background: "#d1d1d6",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  overflow: "hidden"
+                }}
+              >
+                <img src="/img/ui/avatar.jpg" alt="profile" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+              <div>
+                <div style={{ fontSize: "20px", fontWeight: 400, color: dark ? "#fff" : "#000", letterSpacing: "-0.5px" }}>Akash Sharma</div>
+                <div style={{ fontSize: "13px", color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", marginTop: "2px" }}>Apple ID, iCloud, Media & App Store</div>
+              </div>
             </div>
-            {renderPanel()}
-          </motion.div>
-        </AnimatePresence>
+          )}
+
+          {isMobile ? (
+            search.trim() ? (
+              <div style={{ margin: "0 16px", background: dark ? "#1c1c1e" : "#fff", borderRadius: "10px", overflow: "hidden" }}>
+                {filtered.map((item, idx) => {
+                  return (
+                    <motion.button
+                      key={item.id}
+                      whileTap={{ backgroundColor: dark ? "#2c2c2e" : "#e5e5ea" }}
+                      onClick={() => {
+                        setActivePanel(item.id);
+                        setMobileView("panel");
+                      }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        width: "100%",
+                        padding: "0 0 0 16px",
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                        position: "relative",
+                        textAlign: "left",
+                      }}
+                    >
+                      <div style={{ width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: item.color, borderRadius: "6px", marginRight: "14px" }}>
+                        <div style={{ width: "18px", height: "18px", backgroundColor: "#fff", WebkitMask: `url(${item.icon}) center/contain no-repeat`, mask: `url(${item.icon}) center/contain no-repeat` }} />
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flex: 1, padding: "12px 16px 12px 0", borderBottom: idx !== filtered.length - 1 ? (dark ? "0.5px solid rgba(255,255,255,0.15)" : "0.5px solid rgba(0,0,0,0.1)") : "none" }}>
+                        <span style={{ fontSize: "16px", color: dark ? "#fff" : "#000" }}>{item.label}</span>
+                        <img src="/img/icons/sf-icons/caret-right.svg" alt="chevron" style={{ width: "12px", height: "12px", opacity: 0.3, filter: dark ? "invert(1)" : "none", transform: "rotate(180deg)" }} />
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            ) : (
+              PANEL_GROUPS.map((group, gIdx) => {
+                const groupItems = group.map(id => PANEL_ITEMS.find(p => p.id === id)).filter(Boolean) as PanelItem[];
+                if (groupItems.length === 0) return null;
+                return (
+                  <div key={gIdx} style={{ margin: "0 16px 20px", background: dark ? "#1c1c1e" : "#fff", borderRadius: "10px", overflow: "hidden" }}>
+                    {groupItems.map((item, idx) => {
+                      return (
+                        <motion.button
+                          key={item.id}
+                          whileTap={{ backgroundColor: dark ? "#2c2c2e" : "#e5e5ea" }}
+                          onClick={() => {
+                            setActivePanel(item.id);
+                            setMobileView("panel");
+                          }}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            width: "100%",
+                            padding: "0 0 0 16px",
+                            background: "transparent",
+                            border: "none",
+                            cursor: "pointer",
+                            position: "relative",
+                            textAlign: "left",
+                          }}
+                        >
+                          <div style={{ width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: item.color, borderRadius: "6px", marginRight: "14px" }}>
+                            <div style={{ width: "18px", height: "18px", backgroundColor: "#fff", WebkitMask: `url(${item.icon}) center/contain no-repeat`, mask: `url(${item.icon}) center/contain no-repeat` }} />
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flex: 1, padding: "12px 16px 12px 0", borderBottom: idx !== groupItems.length - 1 ? (dark ? "0.5px solid rgba(255,255,255,0.15)" : "0.5px solid rgba(0,0,0,0.1)") : "none" }}>
+                            <span style={{ fontSize: "16px", color: dark ? "#fff" : "#000" }}>{item.label}</span>
+                            <img src="/img/icons/sf-icons/caret-right.svg" alt="chevron" style={{ width: "12px", height: "12px", opacity: 0.3, filter: dark ? "invert(1)" : "none", transform: "rotate(180deg)" }} />
+                          </div>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                );
+              })
+            )
+          ) : (
+            filtered.map((item) => {
+              const active = activePanel === item.id;
+              return (
+                <motion.button
+                  key={item.id}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setActivePanel(item.id)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "7px 12px",
+                    background: active
+                      ? dark ? "rgba(0,122,255,0.2)" : "rgba(0,122,255,0.12)"
+                      : "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    borderRadius: "8px",
+                    margin: "1px 6px",
+                    width: "calc(100% - 12px)",
+                    transition: "background 0.15s ease",
+                    position: "relative",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!active)
+                      (e.currentTarget as HTMLElement).style.background =
+                        dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!active)
+                      (e.currentTarget as HTMLElement).style.background = "transparent";
+                  }}
+                >
+                  {active && (
+                    <motion.div
+                      layoutId="settings-sidebar-indicator"
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        top: "18%",
+                        bottom: "18%",
+                        width: "2.5px",
+                        borderRadius: "2px",
+                        background: "#007AFF",
+                      }}
+                      transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                    />
+                  )}
+                  <div
+                    style={{
+                      width: "28px",
+                      height: "28px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      background: item.color,
+                      borderRadius: "6px",
+                      boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+                      border: dark ? "0.5px solid rgba(255,255,255,0.2)" : "0.5px solid rgba(0,0,0,0.05)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "16px",
+                        height: "16px",
+                        backgroundColor: "#fff",
+                        WebkitMask: `url(${item.icon}) center/contain no-repeat`,
+                        mask: `url(${item.icon}) center/contain no-repeat`,
+                      }}
+                    />
+                  </div>
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      color: active ? "#007AFF" : dark ? "#f5f5f7" : "#1c1c1e",
+                      fontWeight: active ? 600 : 400,
+                      textAlign: "left",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                </motion.button>
+              );
+            })
+          )}
+        </div>
       </div>
+      )}
+
+      {/* ── Content ── */}
+      {(!isMobile || mobileView === "panel") && (
+        <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", background: isMobile ? (dark ? "#000" : "#f2f2f7") : "transparent" }}>
+          {isMobile && (
+            <div style={{ display: "flex", alignItems: "center", padding: "12px 16px", borderBottom: dark ? "0.5px solid rgba(255,255,255,0.1)" : "0.5px solid rgba(0,0,0,0.1)" }}>
+              <button
+                onClick={() => setMobileView("list")}
+                style={{
+                  background: "none", border: "none", color: "#007AFF", fontSize: "16px", display: "flex", alignItems: "center", gap: "4px", cursor: "pointer", padding: 0
+                }}
+              >
+                <img src="/img/icons/sf-icons/caret-right.svg" alt="back" style={{ width: "12px", height: "12px", transform: "rotate(180deg)", filter: "invert(40%) sepia(100%) saturate(3000%) hue-rotate(200deg) brightness(100%) contrast(100%)" }} />
+                Settings
+              </button>
+            </div>
+          )}
+          <div style={{ flex: 1, overflowY: "auto" }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activePanel}
+                initial={{ opacity: 0, x: 16, filter: "blur(2px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, x: -10, filter: "blur(2px)" }}
+                transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
+                style={{ paddingBottom: "24px" }}
+              >
+                {/* Panel title */}
+                {!isMobile && (
+                  <div
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: 700,
+                      color: dark ? "#fff" : "#1c1c1e",
+                      padding: "16px 16px 8px",
+                      borderBottom: dark ? "0.5px solid rgba(255,255,255,0.1)" : "0.5px solid rgba(0,0,0,0.06)",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {PANEL_ITEMS.find((p) => p.id === activePanel)?.label}
+                  </div>
+                )}
+                {isMobile && (
+                   <div style={{ fontSize: "28px", fontWeight: 700, padding: "16px 16px 8px", color: dark ? "#fff" : "#000" }}>
+                     {PANEL_ITEMS.find((p) => p.id === activePanel)?.label}
+                   </div>
+                )}
+                {renderPanel()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

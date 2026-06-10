@@ -62,8 +62,8 @@ const initialDark = resolveDark(initialAppearanceMode);
 
 export const createSystemSlice: StateCreator<SystemSlice> = (set) => ({
   dark: initialDark,
-  volume: 100,
-  brightness: 80,
+  volume: 50,
+  brightness: 50,
   wifi: true,
   bluetooth: true,
   airdrop: true,

@@ -1,4 +1,6 @@
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useWindowSize } from "~/hooks/useWindowSize";
 
 interface Note {
   id: string;
@@ -101,8 +103,12 @@ export default function Notes() {
   const [search, setSearch] = useState("");
   const [activeSection, setActiveSection] = useState<"notes" | "shared">("notes");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  
+  const { winWidth } = useWindowSize();
+  const isMobile = winWidth < 768;
+  const [mobileView, setMobileView] = useState<"sidebar" | "list" | "editor">("list");
 
-  const activeNote = notes.find((n) => n.id === selected)!;
+  const activeNote = notes.find((n) => n.id === selected);
 
   const filtered = search.trim()
     ? notes.filter(
@@ -132,14 +138,17 @@ export default function Notes() {
 
   const deleteNote = (id: string) => {
     setNotes((prev) => prev.filter((n) => n.id !== id));
-    if (selected === id) setSelected(notes.find((n) => n.id !== id)?.id ?? "");
+    if (selected === id) {
+      setSelected(notes.find((n) => n.id !== id)?.id ?? "");
+      if (isMobile) setMobileView("list");
+    }
   };
 
   const NoteRow = ({ note }: { note: Note }) => (
     <motion.div
       initial={{ opacity: 0, x: -8 }}
       animate={{ opacity: 1, x: 0 }}
-      onClick={() => setSelected(note.id)}
+      onClick={() => { setSelected(note.id); if (isMobile) setMobileView("editor"); }}
       style={{
         padding: "9px 14px",
         borderRadius: "8px",
@@ -231,9 +240,10 @@ export default function Notes() {
       }}
     >
       {/* ── Left sidebar (iCloud/sections) ── */}
+      {(!isMobile || mobileView === "sidebar") && (
       <div
         style={{
-          width: "180px",
+          width: isMobile ? "100%" : "180px",
           flexShrink: 0,
           borderRight: "0.5px solid rgba(0,0,0,0.1)",
           background: "rgba(244,242,236,0.99)",
@@ -290,7 +300,7 @@ export default function Notes() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span className="i-ph:folder" style={{ width: "13px", height: "13px", color: "#007AFF" }} />
+              <img src="/img/icons/sf-icons/folder.svg" alt="Folder" style={{ width: "13px", height: "13px", opacity: 0.8 }} className="dark:invert" />
               <span style={{ fontSize: "12px", fontWeight: activeSection === "notes" ? 600 : 400, color: activeSection === "notes" ? "#007AFF" : "#1c1c1e" }}>
                 Notes
               </span>
@@ -315,7 +325,7 @@ export default function Notes() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span className="i-ph:folder-user" style={{ width: "13px", height: "13px", color: "rgba(0,0,0,0.45)" }} />
+              <img src="/img/icons/sf-icons/folder-user.svg" alt="Shared Folder" style={{ width: "13px", height: "13px", opacity: 0.6 }} className="dark:invert" />
               <span style={{ fontSize: "12px", color: "#1c1c1e" }}>Shared</span>
             </div>
             <span style={{ fontSize: "11px", color: "rgba(0,0,0,0.35)", background: "rgba(0,0,0,0.07)", borderRadius: "8px", padding: "1px 6px" }}>1</span>
@@ -347,11 +357,13 @@ export default function Notes() {
           </div>
         </div>
       </div>
+      )}
 
       {/* ── Note list ── */}
+      {(!isMobile || mobileView === "list") && (
       <div
         style={{
-          width: "220px",
+          width: isMobile ? "100%" : "220px",
           flexShrink: 0,
           borderRight: "0.5px solid rgba(0,0,0,0.1)",
           background: "rgba(248,246,240,0.99)",
@@ -380,7 +392,7 @@ export default function Notes() {
               padding: "4px 8px",
             }}
           >
-            <span className="i-ph:magnifying-glass" style={{ width: "11px", height: "11px", opacity: 0.5 }} />
+            <img src="/img/icons/sf-icons/search.svg" alt="Search" style={{ width: "11px", height: "11px", opacity: 0.5 }} className="dark:invert" />
             <input
               placeholder="Search"
               value={search}
@@ -426,11 +438,19 @@ export default function Notes() {
           </AnimatePresence>
         </div>
       </div>
+      )}
 
       {/* ── Editor ── */}
+      {(!isMobile || mobileView === "editor") && (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", width: isMobile ? "100%" : "auto" }}>
       {activeNote ? (
         <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
           {/* Editor toolbar */}
+          {isMobile && (
+            <button onClick={() => setMobileView("list")} style={{ padding: "8px 12px", background: "none", border: "none", color: "#007AFF", fontWeight: 500, display: "flex", alignItems: "center", gap: "4px" }}>
+              ‹ Back
+            </button>
+          )}
           <div
             style={{
               padding: "6px 12px",
@@ -476,7 +496,7 @@ export default function Notes() {
               title="Search"
               style={{ background: "none", border: "none", cursor: "pointer", padding: "4px 6px", borderRadius: "6px", opacity: 0.55 }}
             >
-              <span className="i-ph:magnifying-glass" style={{ width: "16px", height: "16px" }} />
+              <img src="/img/icons/sf-icons/search.svg" alt="Search" style={{ width: "16px", height: "16px", opacity: 0.7 }} className="dark:invert" />
             </button>
             {/* Delete */}
             <button
@@ -484,7 +504,7 @@ export default function Notes() {
               title="Delete"
               style={{ background: "none", border: "none", cursor: "pointer", padding: "4px 6px", borderRadius: "6px", opacity: 0.4 }}
             >
-              <span className="i-ph:trash" style={{ width: "14px", height: "14px" }} />
+              <img src="/img/icons/sf-icons/trash.svg" alt="Trash" style={{ width: "14px", height: "14px", opacity: 0.7 }} className="dark:invert" />
             </button>
           </div>
 
@@ -532,6 +552,8 @@ export default function Notes() {
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(0,0,0,0.3)", fontSize: "14px" }}>
           Select or create a note
         </div>
+      )}
+      </div>
       )}
     </div>
   );

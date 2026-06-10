@@ -28,6 +28,9 @@ const loginExitVariants = {
   },
 };
 
+import Mobile from "~/pages/Mobile";
+import { useWindowSize } from "~/hooks/useWindowSize";
+
 const desktopEnterVariants = {
   initial: { opacity: 0, scale: 0.97, filter: "brightness(2)" },
   animate: {
@@ -57,6 +60,9 @@ export default function App() {
   const [booting, setBooting] = useState<boolean>(false);
   const [restart, setRestart] = useState<boolean>(false);
   const [sleep, setSleep] = useState<boolean>(false);
+
+  const { winWidth } = useWindowSize();
+  const isMobile = winWidth < 768;
 
   const { dark, getWallpaper, iconStyle, tintWindows } = useStore((s) => ({
     dark: s.dark,
@@ -152,12 +158,21 @@ export default function App() {
             animate="animate"
             style={{ position: "absolute", inset: 0, zIndex: 1 }}
           >
-            <Desktop
-              setLogin={setLogin}
-              shutMac={shutMac}
-              sleepMac={sleepMac}
-              restartMac={restartMac}
-            />
+            {isMobile ? (
+              <Mobile
+                setLogin={setLogin}
+                shutMac={shutMac}
+                sleepMac={sleepMac}
+                restartMac={restartMac}
+              />
+            ) : (
+              <Desktop
+                setLogin={setLogin}
+                shutMac={shutMac}
+                sleepMac={sleepMac}
+                restartMac={restartMac}
+              />
+            )}
           </motion.div>
         )}
 

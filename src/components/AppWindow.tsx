@@ -123,10 +123,11 @@ const Window = (props: WindowProps) => {
     }));
   }, [winWidth, winHeight]);
 
-  const round = props.max ? "rounded-none" : "";
+  const isMobile = winWidth < 768;
+  const round = (props.max || isMobile) ? "rounded-none" : "";
   const minimized = props.min ? "opacity-0 invisible transition-opacity duration-300" : "";
-  const width = props.max ? winWidth : state.width;
-  const height = props.max ? winHeight : state.height;
+  const width = (props.max || isMobile) ? winWidth : state.width;
+  const height = (props.max || isMobile) ? winHeight : state.height;
   const disableMax = props.aspectRatio !== undefined;
 
   const children = React.cloneElement(props.children as React.ReactElement, { width });
@@ -136,10 +137,10 @@ const Window = (props: WindowProps) => {
       bounds="parent"
       size={{ width, height }}
       position={{
-        x: props.max
+        x: (props.max || isMobile)
           ? winWidth
           : Math.min(winWidth * 2 - minMarginX, Math.max(winWidth - state.width + minMarginX, state.x)),
-        y: props.max
+        y: (props.max || isMobile)
           ? -minMarginY
           : Math.min(winHeight - minMarginY - (dockSize + 15 + minMarginY), Math.max(0, state.y)),
       }}
@@ -155,8 +156,8 @@ const Window = (props: WindowProps) => {
       minWidth={props.minWidth ?? 200}
       minHeight={props.minHeight ?? 150}
       dragHandleClassName="window-bar"
-      disableDragging={props.max}
-      enableResizing={!props.max}
+      disableDragging={props.max || isMobile}
+      enableResizing={!(props.max || isMobile)}
       lockAspectRatio={props.aspectRatio}
       lockAspectRatioExtraHeight={props.aspectRatio ? appBarHeight : undefined}
       style={{ zIndex: props.z, pointerEvents: "auto" }}
@@ -166,21 +167,31 @@ const Window = (props: WindowProps) => {
     >
       {/* macOS Tahoe Liquid Glass window shell */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.88, y: 12 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.93, y: -6 }}
-        transition={{ type: "spring", stiffness: 380, damping: 30, mass: 0.8 }}
+        initial={{ opacity: 0, scale: 0.3, y: "100vh", borderRadius: 28 }}
+        animate={{ opacity: 1, scale: 1, y: 0, borderRadius: props.max ? 0 : 12 }}
+        exit={{ 
+          opacity: [1, 0, 0], 
+          scale: 0.3, 
+          y: "100vh", 
+          borderRadius: 28,
+          transition: { 
+            duration: 0.35, 
+            ease: [0.32, 0.72, 0, 1],
+            opacity: { times: [0, 0.8, 1], ease: "linear" }
+          } 
+        }}
+        transition={{ duration: 0.42, ease: [0.32, 0.72, 0, 1] }}
         style={{
           width: "100%",
           height: "100%",
-          borderRadius: props.max ? 0 : "var(--radius-window)",
+          transformOrigin: `calc(var(--launch-origin-x, 50vw) - ${state.x}px) calc(var(--launch-origin-y, 100vh) - ${state.y}px)`,
           overflow: "hidden",
           background: props.titlebar === "transparent" ? "transparent" : "var(--lg-bg-clear)",
           backdropFilter: props.titlebar === "transparent" ? "none" : "var(--lg-blur-heavy)",
           WebkitBackdropFilter: props.titlebar === "transparent" ? "none" : "var(--lg-blur-heavy)",
           boxShadow: props.max ? "none" : "var(--shadow-window), var(--lg-inner-highlight)",
           border: props.max ? "none" : "var(--lg-border-subtle)",
-          transition: "box-shadow 0.3s ease, border-radius 0.4s var(--ease-liquid)",
+          transition: "box-shadow 0.3s ease",
         }}
       >
         {/* Tahoe title bar */}
@@ -232,9 +243,15 @@ const Window = (props: WindowProps) => {
         )}
 
         {/* Window content */}
-        <div className="w-full overflow-y-hidden" style={{ height: props.titlebar === "transparent" || props.titlebar === "hidden" ? "100%" : "calc(100% - 32px)" }}>
+        <motion.div 
+          className="w-full overflow-y-hidden" 
+          style={{ height: props.titlebar === "transparent" || props.titlebar === "hidden" ? "100%" : "calc(100% - 32px)" }}
+          initial={{ opacity: 0, filter: "blur(8px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.15, delay: 0.35, ease: "easeOut" }}
+        >
           {children}
-        </div>
+        </motion.div>
       </motion.div>
     </Rnd>
   );

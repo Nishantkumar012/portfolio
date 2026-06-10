@@ -84,8 +84,9 @@ const TopBar = (props: TopBarProps) => {
     showAppleMenu: false
   });
 
-  const {audio, audioState, controls, audioRef} = useAudioContext();
+  const { audio, audioState, controls, audioRef } = useAudioContext();
   const { winWidth, winHeight } = useWindowSize();
+  const isMobile = winWidth < 768;
 
   const { volume, wifi } = useStore((state) => ({
     volume: state.volume,
@@ -187,7 +188,7 @@ const TopBar = (props: TopBarProps) => {
           onClick={toggleAppleMenu}
           ref={appleBtnRef}
         >
-          <span className="i-fa6-brands:apple text-base" />
+          <img src="/img/icons/sf-icons/general.svg" alt="Apple Logo" style={{ width: "16px", height: "16px", filter: "invert(1)" }} />
         </TopBarItem>
         <TopBarItem
           className="font-semibold px-2"
@@ -224,13 +225,13 @@ const TopBar = (props: TopBarProps) => {
           ref={wifiBtnRef}
         >
           {wifi ? (
-            <span className="i-ph:wifi-high text-lg" />
+            <img src="/img/icons/sf-icons/wifi.svg" alt="Wi-Fi" style={{ width: "18px", height: "18px", filter: "invert(1)" }} />
           ) : (
-            <span className="i-ph:wifi-slash text-lg" />
+            <img src="/img/icons/sf-icons/wifi.svg" alt="Wi-Fi Off" style={{ width: "18px", height: "18px", filter: "invert(1)", opacity: 0.5 }} />
           )}
         </TopBarItem>
         <TopBarItem ref={spotlightBtnRef} onClick={props.toggleSpotlight}>
-          <span className="i-ph:magnifying-glass text-[17px]" />
+          <img src="/img/icons/sf-icons/search.svg" alt="Spotlight Search" style={{ width: "17px", height: "17px", filter: "invert(1)" }} />
         </TopBarItem>
         <TopBarItem
           forceHover={state.showControlCenter}
@@ -267,6 +268,48 @@ const TopBar = (props: TopBarProps) => {
           <span className="font-tabular">{format(state.date, "h:mm aa")}</span>
         </TopBarItem>
       </div>
+
+      {/* Invisible Swipe Zones for Mobile Gestures */}
+      {isMobile && (
+        <>
+          <div
+            className="fixed top-0 left-0 w-1/2 h-12 z-[99998]"
+            onTouchStart={(e) => {
+              const touch = e.touches[0];
+              (e.target as any).startY = touch.clientY;
+            }}
+            onTouchMove={(e) => {
+              const touch = e.touches[0];
+              const startY = (e.target as any).startY;
+              if (startY !== undefined && touch.clientY - startY > 30) {
+                if (!props.showNotificationCenter) {
+                  props.toggleNotificationCenter?.();
+                }
+                (e.target as any).startY = undefined;
+              }
+            }}
+            onClick={props.toggleNotificationCenter}
+          />
+          <div
+            className="fixed top-0 right-0 w-1/2 h-12 z-[99998]"
+            onTouchStart={(e) => {
+              const touch = e.touches[0];
+              (e.target as any).startY = touch.clientY;
+            }}
+            onTouchMove={(e) => {
+              const touch = e.touches[0];
+              const startY = (e.target as any).startY;
+              if (startY !== undefined && touch.clientY - startY > 30) {
+                if (!state.showControlCenter) {
+                  toggleControlCenter();
+                }
+                (e.target as any).startY = undefined;
+              }
+            }}
+            onClick={toggleControlCenter}
+          />
+        </>
+      )}
     </div>
   );
 };

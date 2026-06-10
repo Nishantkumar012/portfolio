@@ -629,48 +629,48 @@ export default function Siri({ closeSiri }: { closeSiri?: () => void }) {
         }
         .siri-glass-panel {
           background: rgba(255, 255, 255, 0.4);
-          backdrop-filter: blur(25px);
-          -webkit-backdrop-filter: blur(25px);
-          border: 1px solid rgba(255, 255, 255, 0.5);
+          backdrop-filter: blur(50px) saturate(180%);
+          -webkit-backdrop-filter: blur(50px) saturate(180%);
+          border: 1px solid rgba(255, 255, 255, 0.4);
           border-radius: 20px;
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), inset 0 0 0 0.5px rgba(255, 255, 255, 0.5);
         }
         .dark .siri-glass-panel {
-          background: rgba(40, 40, 40, 0.45);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1);
+          background: rgba(35, 35, 35, 0.45);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
         }
       `}</style>
 
       {/* Box Text (Siri's Response as a Large Glass Panel) */}
       <div
-        className={`siri-glass-panel relative z-20 flex flex-col justify-center px-6 py-5 rounded-3xl w-[320px] min-h-[140px] transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${boxText || statusText ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'
+        className={`siri-glass-panel relative z-20 flex flex-col justify-center px-6 py-5 w-[320px] min-h-[120px] transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${boxText || statusText ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'
           }`}
       >
         {/* Header containing Siri icon and Title */}
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-5 h-5 rounded-md overflow-hidden bg-black/10 flex items-center justify-center">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-5 h-5 rounded-md overflow-hidden bg-black/5 dark:bg-white/5 flex items-center justify-center">
             <img src="/img/icons/siri.png" className="w-full h-full object-cover" alt="Siri" />
           </div>
-          <span className="text-[13px] font-semibold text-black/60 dark:text-white/60 tracking-wide">
+          <span className="text-[13px] font-semibold text-black/60 dark:text-white/60 tracking-wide uppercase">
             Siri
           </span>
         </div>
 
         {/* Content Area */}
         <div
-          className="text-[#203060] dark:text-[#a0b0e0] text-[22px] leading-snug font-bold drop-shadow-sm font-display"
+          className="text-black/90 dark:text-white text-[16px] leading-relaxed font-medium tracking-tight font-sans drop-shadow-sm"
         >
           {statusText ? (
-            <span className="opacity-70 text-lg italic">{statusText}</span>
+             <span className="opacity-60 text-[16px] font-normal">{statusText}</span>
           ) : (
             boxText
           )}
         </div>
 
-        {/* Close Button on the Top-Left of the panel */}
+        {/* Close Button on the Top-Right of the panel */}
         <button
-          className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
+          className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20 text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors"
           onClick={(e) => {
             e.stopPropagation();
             setResponseText("");
@@ -678,7 +678,7 @@ export default function Siri({ closeSiri }: { closeSiri?: () => void }) {
           }}
           title="Dismiss"
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
         </button>
       </div>
 

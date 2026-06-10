@@ -1,5 +1,5 @@
 import React from "react";
-import { apps } from "~/configs";
+import { apps, launchpadApps } from "~/configs";
 import { minMarginY, isFullScreen, enterFullScreen, exitFullScreen } from "~/utils";
 import type { MacActions } from "~/types";
 import DynamicIsland from "~/components/DynamicIsland";
@@ -10,6 +10,7 @@ import WeatherWidget from "~/components/widgets/WeatherWidget";
 import ContextMenu from "~/components/menus/ContextMenu";
 import { FolderIcon, FolderHomeIcon, FolderDockIcon, PdfIcon } from "~/components/DesktopIcons";
 import { AnimatePresence, motion } from "framer-motion";
+import { useWindowSize } from "~/hooks";
 
 interface DesktopState {
   showApps: { [key: string]: boolean };
@@ -62,7 +63,16 @@ export default function Desktop(props: MacActions) {
     getWallpaper: s.getWallpaper,
   }));
 
+  const { isMobile } = useWindowSize();
+
   const activeWallpaper = getWallpaper();
+
+  const handleLaunchpadAppClick = (e: React.MouseEvent, link: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    useStore.getState().setSafariUrl(link);
+    window.dispatchEvent(new CustomEvent("launchpad:openSafari"));
+  };
 
   // Listen for cross-component events and global keyboard shortcuts
   useEffect(() => {
@@ -331,6 +341,31 @@ export default function Desktop(props: MacActions) {
         }}
       >
       </div>
+
+      {isMobile && (
+        <div className="absolute top-[48px] left-0 right-0 bottom-24 p-6 grid grid-cols-4 gap-y-6 gap-x-2 content-start z-40">
+          {apps.filter(a => !a.hideOnMobile && !a.dockOnMobile && a.id !== "launchpad").map(app => (
+            <div key={app.id} className="flex flex-col items-center gap-1.5 cursor-pointer" onClick={() => openApp(app.id)}>
+              <div className="w-[60px] h-[60px] bg-transparent rounded-[22.5%] shadow-sm overflow-hidden flex items-center justify-center border border-black/5 dark:border-white/5">
+                <img src={app.mobileImg || app.img} alt={app.title} className="w-full h-full object-cover" />
+              </div>
+              <span className="text-white text-xs font-light text-center tracking-wide" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}>
+                {app.mobileTitle || app.title}
+              </span>
+            </div>
+          ))}
+          {launchpadApps.map(app => (
+            <div key={app.id} className="flex flex-col items-center gap-1.5 cursor-pointer" onClick={(e) => handleLaunchpadAppClick(e, app.link)}>
+              <div className={`w-[60px] h-[60px] rounded-[22.5%] shadow-sm overflow-hidden flex items-center justify-center border border-black/10 dark:border-white/10 ${app.img.includes('skill-exchange') ? 'bg-black' : 'bg-white'}`}>
+                <img src={app.mobileImg || app.img} alt={app.title} className="w-[60%] h-[60%] object-contain" />
+              </div>
+              <span className="text-white text-xs font-light text-center tracking-wide" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}>
+                {app.mobileTitle || app.title}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Desktop App Windows */}
       <div className="window-bound absolute" style={{ top: minMarginY, zIndex: 60, pointerEvents: "none" }}>

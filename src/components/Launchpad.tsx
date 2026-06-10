@@ -1,6 +1,8 @@
 import { launchpadApps } from "~/configs";
 import { useStore } from "~/stores";
 import { motion, AnimatePresence } from "framer-motion";
+import { useWindowSize } from "~/hooks";
+import { useState } from "react";
 
 interface LaunchpadProps {
   show: boolean;
@@ -16,6 +18,8 @@ export default function Launchpad({ show, toggleLaunchpad }: LaunchpadProps) {
   const setSafariUrl = useStore((state) => state.setSafariUrl);
   const getWallpaper = useStore((state) => state.getWallpaper);
   const activeWallpaper = getWallpaper();
+  const { winWidth } = useWindowSize();
+  const isMobile = winWidth < 768;
 
   const [searchText, setSearchText] = useState("");
   const [focus, setFocus] = useState(false);
@@ -50,9 +54,18 @@ export default function Launchpad({ show, toggleLaunchpad }: LaunchpadProps) {
   };
 
   const search = () => {
-    if (searchText === "") return launchpadApps;
+    let appsToRender = launchpadApps;
+    if (isMobile) {
+      appsToRender = launchpadApps.filter(app => !app.hideOnMobile).map(app => ({
+        ...app,
+        title: app.mobileTitle || app.title,
+        img: app.mobileImg || app.img,
+      }));
+    }
+
+    if (searchText === "") return appsToRender;
     const text = searchText.toLowerCase();
-    return launchpadApps.filter((item) =>
+    return appsToRender.filter((item) =>
       item.title.toLowerCase().includes(text) || item.id.toLowerCase().includes(text)
     );
   };
@@ -113,7 +126,7 @@ export default function Launchpad({ show, toggleLaunchpad }: LaunchpadProps) {
               onBlur={() => setFocus(false)}
             >
               <div className={`${focus ? "w-6 duration-200" : "w-26 delay-250"} hstack justify-end`}>
-                <span className="i-ph:magnifying-glass ml-2 text-white/60" />
+                <img src="/img/icons/sf-icons/search.svg" alt="Search" className="ml-2" style={{ width: "16px", height: "16px", filter: "invert(1)", opacity: 0.6 }} />
               </div>
               <input
                 className="flex-1 min-w-0 no-outline bg-transparent px-1.5 text-sm text-white"

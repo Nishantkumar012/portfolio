@@ -91,12 +91,33 @@ export default function DockItem({
   const imgRef = useRef<HTMLElement>(null);
   const { width } = useDockHoverAnimation(mouseX, imgRef, dockSize, dockMag);
   const { winWidth } = useWindowSize();
+  
+  const [isReceiving, setIsReceiving] = React.useState(false);
+  const wasOpen = React.useRef(isOpen);
+
+  React.useEffect(() => {
+    if (wasOpen.current && !isOpen) {
+      setIsReceiving(true);
+      const timer = setTimeout(() => setIsReceiving(false), 350);
+      return () => clearTimeout(timer);
+    }
+    wasOpen.current = isOpen;
+  }, [isOpen]);
 
   return (
     <li
       id={`dock-${id}`}
-      onClick={desktop || id === "launchpad" ? () => openApp(id) : () => {}}
-      className={`relative flex flex-col justify-end mb-1 ${isBouncing ? 'dock-bounce' : ''}`}
+      onClick={(e) => {
+        if (desktop || id === "launchpad") {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const originX = rect.left + rect.width / 2;
+          const originY = rect.top + rect.height / 2;
+          document.documentElement.style.setProperty('--launch-origin-x', `${originX}px`);
+          document.documentElement.style.setProperty('--launch-origin-y', `${originY}px`);
+          openApp(id);
+        }
+      }}
+      className={`relative flex flex-col justify-end mb-1 ${isBouncing ? 'dock-bounce' : ''} ${isReceiving ? 'dock-receive' : ''}`}
       style={{
         transition: isBouncing ? 'none' : undefined,
       }}

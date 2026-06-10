@@ -1,6 +1,10 @@
 import { useMotionValue } from "framer-motion";
 import { motion } from "framer-motion";
 import { apps } from "~/configs";
+import { useWindowSize } from "~/hooks";
+import { useState } from "react";
+import { useStore } from "~/stores";
+import DockItem from "./DockItem";
 
 interface DockProps {
   open: (id: string) => void;
@@ -40,10 +44,26 @@ export default function Dock({
   };
 
   const mouseX = useMotionValue<number | null>(null);
+  const { winWidth } = useWindowSize();
+  const isMobile = winWidth < 768;
 
   // Find separator position (between desktop apps and external links)
-  const desktopApps = apps.filter(app => (app.desktop || app.id === 'launchpad') && !app.hideFromDock);
-  const externalApps = apps.filter(app => !app.desktop && app.id !== 'launchpad' && !app.hideFromDock);
+  const desktopApps = apps.filter(app => {
+    if (app.hideFromDock) return false;
+    if (!app.desktop && app.id !== 'launchpad') return false;
+    if (isMobile) {
+      return !!app.dockOnMobile;
+    }
+    return true;
+  });
+  const externalApps = apps.filter(app => {
+    if (app.hideFromDock) return false;
+    if (app.desktop || app.id === 'launchpad') return false;
+    if (isMobile) {
+      return !!app.dockOnMobile;
+    }
+    return true;
+  });
 
   return (
     <motion.div
@@ -90,8 +110,8 @@ export default function Dock({
           <DockItem
             key={`dock-${app.id}`}
             id={app.id}
-            title={app.title}
-            img={app.img}
+            title={(isMobile && app.mobileTitle) ? app.mobileTitle : app.title}
+            img={(isMobile && app.mobileImg) ? app.mobileImg : app.img}
             mouseX={mouseX}
             desktop={app.desktop}
             openApp={openApp}
@@ -121,8 +141,8 @@ export default function Dock({
           <DockItem
             key={`dock-${app.id}`}
             id={app.id}
-            title={app.title}
-            img={app.img}
+            title={(isMobile && app.mobileTitle) ? app.mobileTitle : app.title}
+            img={(isMobile && app.mobileImg) ? app.mobileImg : app.img}
             mouseX={mouseX}
             desktop={app.desktop}
             openApp={openApp}

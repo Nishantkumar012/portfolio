@@ -311,18 +311,23 @@
   50% { opacity: 1; }
 }
 
-@keyframes dockBounce {
-  0% { transform: translateY(0); }
-  15% { transform: translateY(-24px) scaleX(0.95) scaleY(1.05); }
-  30% { transform: translateY(0) scaleX(1.02) scaleY(0.98); }
-  45% { transform: translateY(-12px) scaleX(0.98) scaleY(1.02); }
-  60% { transform: translateY(0) scaleX(1.01) scaleY(0.99); }
-  75% { transform: translateY(-4px); }
-  90%, 100% { transform: translateY(0); }
+@keyframes dockPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes dockReceive {
+  0% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .dock-bounce {
-  animation: dockBounce 0.7s var(--spring-bounce);
+  animation: dockPop 120ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dock-receive {
+  animation: dockReceive 350ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* Dynamic Island */

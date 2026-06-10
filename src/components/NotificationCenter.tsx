@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 import CalendarWidget from "./widgets/CalendarWidget";
 import WeatherWidget from "./widgets/WeatherWidget";
+import { useWindowSize } from "~/hooks/useWindowSize";
 
 interface NotificationCenterProps {
   show: boolean;
@@ -44,36 +45,50 @@ export default function NotificationCenter({ show, onClose }: NotificationCenter
       toggleFocus: s.toggleFocus,
     }));
 
+  const { winWidth } = useWindowSize();
+  const isMobile = winWidth < 768;
   const unread = notifications.filter((n) => !n.read).length;
 
   return (
     <AnimatePresence>
       {show && (
         <>
-          {/* Transparent click-outside overlay — no full-panel background */}
+          {/* Transparent click-outside overlay — frosted on mobile */}
           <motion.div
             key="nc-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            style={{ position: "fixed", inset: 0, zIndex: 90 }}
+            style={{ 
+              position: "fixed", 
+              inset: 0, 
+              zIndex: isMobile ? 9998 : 90,
+              background: isMobile ? "rgba(0,0,0,0.3)" : "transparent",
+              backdropFilter: isMobile ? "blur(10px)" : "none",
+              WebkitBackdropFilter: isMobile ? "blur(10px)" : "none",
+            }}
             onClick={onClose}
           />
 
           {/* Staggered column of discrete glass cards */}
           <motion.div
             key="nc-cards"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
+            variants={isMobile ? undefined : containerVariants}
+            initial={isMobile ? { y: "-100%", opacity: 0.5 } : "hidden"}
+            animate={isMobile ? { y: 0, opacity: 1 } : "visible"}
+            exit={isMobile ? { y: "-100%", opacity: 0.5 } : "exit"}
+            transition={{ type: "spring", stiffness: 350, damping: 30 }}
             style={{
               position: "fixed",
-              top: 40,
-              right: 12,
-              width: 320,
-              zIndex: 95,
+              top: isMobile ? 0 : 40,
+              right: isMobile ? 12 : 12,
+              left: isMobile ? 12 : "auto",
+              width: isMobile ? "calc(100% - 24px)" : 320,
+              padding: isMobile ? "48px 0 20px" : 0,
+              maxHeight: isMobile ? "calc(100vh - 40px)" : "none",
+              overflowY: isMobile ? "auto" : "visible",
+              zIndex: isMobile ? 9999 : 95,
               display: "flex",
               flexDirection: "column",
               gap: 8,
