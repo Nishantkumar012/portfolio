@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 
 const PLACES = [
-  { id: "1", name: "MBM University", type: "University", lat: 26.285, lng: 73.006, color: "#007AFF" },
-  { id: "2", name: "Jodhpur", type: "City", lat: 26.292, lng: 73.014, color: "#FF9500" },
-  { id: "3", name: "Mehrangarh Fort", type: "Landmark", lat: 26.298, lng: 72.978, color: "#FF3B30" },
-  { id: "4", name: "Umaid Bhawan", type: "Palace", lat: 26.280, lng: 73.022, color: "#AF52DE" },
+  { id: "1", name: "NIT Jalandhar", type: "University", lat: 31.38, lng: 75.58, color: "#007AFF" },
+  { id: "2", name: "Jalandhar", type: "City", lat: 31.326, lng: 75.576, color: "#FF9500" },
+  { id: "3", name: "Rangla Punjab Haveli", type: "Landmark", lat: 31.315, lng: 75.596, color: "#FF3B30" },
+  { id: "4", name: "Pushpa Gujral Science City", type: "Science Park", lat: 31.305, lng: 75.655, color: "#AF52DE" },
 ];
 
 export default function Maps() {

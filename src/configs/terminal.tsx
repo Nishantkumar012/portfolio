@@ -13,8 +13,8 @@ const terminal: TerminalData[] = [
         content: (
           <div className="py-1">
             <div>
-              Hi, this is Akash. I am a Btech student at the Computer Science and
-              Engineering department of MBM University.
+              Hi, this is Nishant Kumar. I am a B.Tech student at the Computer Science and
+              Engineering department of Dr. B.R. Ambedkar National Institute of Technology, Jalandhar (NIT Jalandhar).
             </div>
           </div>
         )
@@ -23,14 +23,14 @@ const terminal: TerminalData[] = [
         id: "about-interests",
         title: "interests.txt",
         type: "file",
-        content: "MERN Stack / Open Source Contribution  / full stack developement"
+        content: "Full Stack Development / React & Node.js / DSA (300+ problems) / Cloud & DevOps"
       },
       {
         id: "about-who-cares",
         title: "who-cares.txt",
         type: "file",
         content:
-          "I'm looking for a SDE internship. I'm open to collaboration on full stack projects."
+          "I'm looking for an SDE internship. I'm open to collaboration on full stack projects."
       },
       {
         id: "about-contact",
@@ -42,55 +42,55 @@ const terminal: TerminalData[] = [
               Email:{" "}
               <a
                 className="text-blue-300"
-                href="mailto:aakash6263264@gmail.com"
+                href="mailto:nishant64563@gmail.com"
                 target="_blank"
                 rel="noreferrer"
               >
-                aakash6263264@gmail.com
+                nishant64563@gmail.com
               </a>
             </li>
             <li>
               Github:{" "}
               <a
                 className="text-blue-300"
-                href="https://github.com/aakashsharma003"
+                href="https://github.com/Nishantkumar012"
                 target="_blank"
                 rel="noreferrer"
               >
-                @aakashsharma
+                @Nishantkumar012
               </a>
             </li>
             <li>
               Linkedin:{" "}
               <a
                 className="text-blue-300"
-                href="https://www.linkedin.com/in/aakashsharma003"
+                href="https://www.linkedin.com/in/nishant-kumar-534434352/"
                 target="_blank"
                 rel="noreferrer"
               >
-                akash-sharma
+                nishant-kumar
               </a>
             </li>
             <li>
-              Personal Website:{" "}
+              LeetCode:{" "}
               <a
                 className="text-blue-300"
-                href="https://aakash-sharma.vercel.app"
+                href="https://leetcode.com/u/paradoxmr123/"
                 target="_blank"
                 rel="noreferrer"
               >
-                https://aakash-sharma.vercel.app
+                paradoxmr123
               </a>
             </li>
             <li>
               X:{" "}
               <a
                 className="text-blue-300"
-                href="https://x.com/aakashsharma003"
+                href="https://x.com/Nishant82407675"
                 target="_blank"
                 rel="noreferrer"
               >
-               find me on x.com
+                find me on x.com
               </a>
             </li>
           </ul>

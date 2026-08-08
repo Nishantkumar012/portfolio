@@ -1,8 +1,8 @@
 # macOS Tahoe Portfolio
 
-**Live Demo:** [https://aakash-sharma.vercel.app](https://aakash-sharma.vercel.app)
+**Live Demo:** [https://nishant-kumar.vercel.app](https://nishant-kumar.vercel.app)
 
-I've never owned a MacBook. But I've always been kind of obsessed with how macOS looks and feels — the way everything just... flows. So at some point I stopped wishing and started building.
+I've always been kind of obsessed with how macOS looks and feels — the way everything just... flows. So at some point I stopped wishing and started building.
 
 This is my attempt at recreating that experience on the web — the Liquid Glass surfaces, the soft animations, the little details that make Apple's design so satisfying. It's not a clone, more like a love letter to a design language I genuinely admire.
 

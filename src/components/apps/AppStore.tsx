@@ -24,44 +24,24 @@ const PROJECTS: AppEntry[] = [
     preview: "img/previews/macos.png"
   },
   {
-    id: "skill-exchange",
-    name: "SkillExchange",
-    subtitle: "Learn and teach.",
-    category: "Education",
-    icon: "img/icons/skill-exchange.png",
-    description: "Exchange skills with peers. Learn anything, teach what you know.",
-    color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-    preview: "img/previews/skill.png"
-  },
-  {
-    id: "paytm-clone",
-    name: "Paytm Clone",
-    subtitle: "Payments made simple.",
-    category: "Finance",
-    icon: "img/icons/paytm.png",
-    description: "A full-stack Paytm-inspired payments app with modern UI.",
-    color: "linear-gradient(135deg, #00BAF2 0%, #002970 100%)",
-    preview: "img/previews/paytm.png"
-  },
-  {
-    id: "mbm-attendance",
-    name: "MBM Attendance",
-    subtitle: "Track your classes.",
+    id: "wedraw",
+    name: "WeDraw",
+    subtitle: "Collaborative Whiteboard.",
     category: "Productivity",
-    icon: "img/icons/mbm.png",
-    description: "Track your college attendance effortlessly.",
-    color: "linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)",
-    preview: "img/previews/mbm.png"
+    icon: "img/icons/launchpad/notebook.png",
+    description: "A real-time collaborative whiteboard built with React, TypeScript, Canvas API, WebSocket, and AWS.",
+    color: "linear-gradient(135deg, #FF6B6B 0%, #C62828 100%)",
+    preview: "img/previews/wedraw.png"
   },
   {
-    id: "share-code",
-    name: "ShareCode",
-    subtitle: "Code beautifully.",
-    category: "Developer Tools",
-    icon: "img/icons/sharecode.png",
-    description: "Share beautiful code snippets with syntax highlighting.",
-    color: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
-    preview: "img/previews/sharecode.png"
+    id: "splitzy",
+    name: "Splitzy",
+    subtitle: "Group Expense Manager.",
+    category: "Finance",
+    icon: "img/icons/launchpad/cube.png",
+    description: "A full-stack expense management app built with React, TypeScript, Node.js, Express, PostgreSQL, and Prisma.",
+    color: "linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)",
+    preview: "img/previews/splitzy.png"
   },
 ];
 
@@ -346,9 +326,9 @@ export default function AppStore() {
           onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
         >
           <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: "var(--system-blue, #007AFF)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: "bold" }}>
-            A
+            N
           </div>
-          <span style={{ fontSize: "14px", flex: 1 }}>Akash Sharma</span>
+          <span style={{ fontSize: "14px", flex: 1 }}>Nishant Kumar</span>
         </button>
       </div>
 

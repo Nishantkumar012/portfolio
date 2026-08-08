@@ -54,6 +54,10 @@ export default function Login(props: MacActions) {
               backgroundColor: 'rgba(0,0,0,0.15)',
               backdropFilter: 'blur(60px) saturate(200%)',
               WebkitBackdropFilter: 'blur(60px) saturate(200%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -61,54 +65,146 @@ export default function Login(props: MacActions) {
             transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
             onKeyDown={keyPress}
           >
+            {/* Glass Profile Card */}
             <motion.div
-              className="inline-block w-auto relative top-1/2"
-              style={{ marginTop: '-160px' }}
+              style={{
+                width: '300px',
+                borderRadius: '28px',
+                padding: '32px 24px 24px',
+                background: 'rgba(255,255,255,0.10)',
+                backdropFilter: 'blur(40px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                border: '0.5px solid rgba(255,255,255,0.18)',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.12)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              {/* Avatar with ring */}
-              <div
-                style={{
-                  width: '88px',
-                  height: '88px',
-                  margin: '0 auto',
-                  borderRadius: '50%',
-                  padding: '3px',
-                  background: 'rgba(255,255,255,0.2)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-                }}
-              >
-                <img
-                  className="rounded-full size-full"
-                  src={user.avatar}
-                  alt="avatar"
+              {/* Avatar with animated gradient ring */}
+              <div style={{ position: 'relative', width: '100px', height: '100px', marginBottom: '14px' }}>
+                {/* Rotating gradient ring */}
+                <motion.div
                   style={{
-                    objectFit: 'cover',
-                    border: '2px solid rgba(255,255,255,0.15)',
+                    position: 'absolute',
+                    inset: '-4px',
+                    borderRadius: '50%',
+                    background: 'conic-gradient(from 0deg, #007AFF, #AF52DE, #FF375F, #FF9F0A, #30D158, #007AFF)',
+                    opacity: 0.85,
                   }}
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 20, ease: 'linear' }}
                 />
+                {/* Dark inner circle (masks the ring to show it as a border) */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: '0',
+                    borderRadius: '50%',
+                    background: 'rgba(0,0,0,0.9)',
+                    padding: '3.5px',
+                  }}
+                >
+                  <img
+                    src={user.avatar}
+                    alt="avatar"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      border: '1.5px solid rgba(255,255,255,0.08)',
+                    }}
+                  />
+                </div>
               </div>
 
               {/* Name */}
               <div
                 className="font-display"
                 style={{
-                  marginTop: '12px',
-                  fontSize: '17px',
-                  fontWeight: 500,
+                  fontSize: '19px',
+                  fontWeight: 600,
                   color: 'white',
-                  letterSpacing: '0.3px',
+                  letterSpacing: '0.2px',
                   textShadow: '0 1px 4px rgba(0,0,0,0.3)',
                 }}
               >
                 {user.name}
               </div>
 
-              {/* Login button styled as password field */}
+              {/* Role */}
+              <div
+                style={{
+                  fontSize: '12.5px',
+                  fontWeight: 400,
+                  color: 'rgba(255,255,255,0.50)',
+                  marginTop: '3px',
+                  letterSpacing: '0.3px',
+                }}
+              >
+                Full Stack Developer
+              </div>
+
+              {/* Social Links */}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+                {[
+                  { icon: 'i-ph:github-logo', href: 'https://github.com/Nishantkumar012', label: 'GitHub' },
+                  { icon: 'i-ph:linkedin-logo', href: 'https://linkedin.com/in/nishant-kumar-534434352', label: 'LinkedIn' },
+                  { icon: 'i-ph:x-logo', href: 'https://x.com/Nishant82407675', label: 'X' },
+                  { icon: 'i-ph:envelope-simple', href: 'mailto:nishant64563@gmail.com', label: 'Email' },
+                ].map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={link.label}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'rgba(255,255,255,0.07)',
+                      border: '0.5px solid rgba(255,255,255,0.10)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.18)';
+                      e.currentTarget.style.transform = 'scale(1.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                  >
+                    <span className={link.icon} style={{ fontSize: '15px', color: 'rgba(255,255,255,0.75)' }} />
+                  </a>
+                ))}
+              </div>
+
+              {/* Divider */}
+              <div
+                style={{
+                  width: '100%',
+                  height: '0.5px',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)',
+                  margin: '18px 0 14px',
+                }}
+              />
+
+              {/* Sign In Button */}
               <motion.div
-                className="flex justify-center items-center mt-3"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
@@ -119,26 +215,28 @@ export default function Login(props: MacActions) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    padding: '6px 24px',
+                    padding: '7px 28px',
                     borderRadius: '20px',
-                    border: '0.5px solid rgba(255,255,255,0.25)',
-                    background: 'rgba(255,255,255,0.12)',
+                    border: '0.5px solid rgba(255,255,255,0.22)',
+                    background: 'rgba(255,255,255,0.10)',
                     backdropFilter: 'blur(10px)',
                     WebkitBackdropFilter: 'blur(10px)',
                     color: 'white',
                     fontSize: '13px',
-                    fontWeight: 400,
+                    fontWeight: 500,
                     letterSpacing: '0.3px',
                     cursor: 'pointer',
                     outline: 'none',
                     transition: 'all 0.2s ease',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.12)',
                   }}
                   onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.2)';
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.18)';
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
                   }}
                   onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.12)';
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.10)';
+                    e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.12)';
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -151,12 +249,12 @@ export default function Login(props: MacActions) {
                 </button>
               </motion.div>
 
-              {/* Touch ID hint */}
+              {/* Hint */}
               <motion.div
                 style={{
-                  marginTop: '16px',
+                  marginTop: '10px',
                   fontSize: '11px',
-                  color: 'rgba(255,255,255,0.5)',
+                  color: 'rgba(255,255,255,0.40)',
                   letterSpacing: '0.2px',
                 }}
                 initial={{ opacity: 0 }}

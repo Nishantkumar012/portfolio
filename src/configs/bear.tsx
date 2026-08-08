@@ -11,14 +11,14 @@ const bear: BearData[] = [
         title: "About Me",
         file: "markdown/about-me.md",
         icon: "i-ph:shield-star",
-        excerpt: "Hey there! I'm the one who is building his own universe..."
+        excerpt: "Hey there! I'm Nishant Kumar, a full stack developer..."
       },
       {
         id: "github-stats",
         title: "Github Stats",
         file: "markdown/github-stats.md",
         icon: "i-fa6-brands:github",
-        excerpt: "Here are some status about my github account..."
+        excerpt: "Here are some stats about my github account..."
       },
       {
         id: "about-site",
@@ -35,52 +35,28 @@ const bear: BearData[] = [
     icon: "i-ph:git-branch",
     md: [
       {
-        id: "paytm-web",
-        title: "PaytmWeb",
-        file: "https://raw.githubusercontent.com/aakashsharma003/PaytmWeb/main/README.md",
-        icon: "i-ph:credit-card",
-        excerpt: "A demonstration Project For Paytm transactions...",
-        link: "https://github.com/aakashsharma003/paytm-web"
+        id: "wedraw",
+        title: "WeDraw",
+        file: "https://raw.githubusercontent.com/Nishantkumar012/wedraw/main/README.md",
+        icon: "i-ph:pen",
+        excerpt: "A real-time collaborative whiteboard application...",
+        link: "https://github.com/Nishantkumar012/wedraw"
+      },
+      {
+        id: "splitzy",
+        title: "Splitzy",
+        file: "https://raw.githubusercontent.com/Nishantkumar012/split-free/main/README.md",
+        icon: "i-ph:calculator",
+        excerpt: "A full-stack group expense management application...",
+        link: "https://github.com/Nishantkumar012/split-free"
       },
       {
         id: "portfolio-macos",
         title: "Portfolio macOS",
-        file: "https://raw.githubusercontent.com/aakashsharma003/macOS-Portfolio/main/README.md",
+        file: "https://raw.githubusercontent.com/Nishantkumar012/macOS-Portfolio/main/README.md",
         icon: "i-ph:desktop",
         excerpt: "My portfolio website simulating macOS's GUI...",
-        link: "https://github.com/aakashsharma003/macos-portfolio"
-      },
-      {
-        id: "medium-2.0",
-        title: "Medium 2.0",
-        file: "https://raw.githubusercontent.com/aakashsharma003/Medium/main/README.md",
-        icon: "i-ph:globe",
-        excerpt: "A medium modified version with serverless backend...",
-        link: "https://github.com/aakashsharma003/Medium"
-      },
-      {
-        id: "attendance-web",
-        title: "Mbm Attendance Web",
-        file: "https://raw.githubusercontent.com/aakashsharma003/Mbm-Attendance-Application/main/README.md",
-        icon: "i-ph:clipboard-text",
-        excerpt: "A attendance website for mbm university...",
-        link: "https://github.com/aakashsharma003/Mbm-Attendance-Application"
-      },
-      {
-        id: "aero-pay",
-        title: "AeroPay",
-        file: "https://raw.githubusercontent.com/aakashsharma003/AeroPay/main/README.md",
-        icon: "i-ph:money",
-        excerpt: "A payment transactions simulator...",
-        link: "https://github.com/aakashsharma003/AeroPay"
-      },
-      {
-        id: "rasl",
-        title: "rasl",
-        file: "https://raw.githubusercontent.com/Open-Source-Collab-Community/rasl/main/README.md",
-        icon: "i-ph:headphones",
-        excerpt: "A audio streaming library...",
-        link: "https://github.com/Open-Source-Collab-Community/rasl"
+        link: "https://github.com/Nishantkumar012/macOS-Portfolio"
       }
     ]
   }

@@ -2,34 +2,22 @@ import type { LaunchpadData } from "~/types";
 
 const launchpadApps: LaunchpadData[] = [
   {
-    id: "library",
-    title: "Library",
-    img: "img/icons/launchpad/library-icon.png",
-    link: "https://github.com/aakashsharma003/lib"
+    id: "wedraw",
+    title: "WeDraw",
+    img: "img/icons/launchpad/notebook.png",
+    link: "http://we-draw.s3-website.ap-south-1.amazonaws.com/"
   },
   {
-    id: "skill-exchange",
-    title: "SkillExchange",
-    img: "img/icons/launchpad/skill-exchange.png", // background should be black
-    link: "https://skill-exchange-fe.vercel.app/"
+    id: "splitzy",
+    title: "Splitzy",
+    img: "img/icons/launchpad/cube.png",
+    link: "https://resonant-cannoli-376799.netlify.app/"
   },
   {
-    id: "share-code",
-    title: "ShareCode",
-    img: "img/icons/launchpad/share-code-app.png",
-    link: "https://share-your-codes.vercel.app/"
-  },
-  {
-    id: "paytm-web",
-    title: "Paytm",
-    img: "img/icons/launchpad/paytm-app.png",
-    link: "https://paytm-web.vercel.app/"
-  },
-  {
-    id: "attendance-web",
-    title: "MBM Attendance",
-    img: "img/icons/launchpad/attendance-web.png",
-    link: "https://mbm-attendance-web.vercel.app/"
+    id: "portfolio-macos",
+    title: "Portfolio",
+    img: "img/icons/launchpad/rl.png",
+    link: "https://github.com/Nishantkumar012/macOS-Portfolio"
   }
 ];
 

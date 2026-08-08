@@ -4,15 +4,15 @@
 
 Hey there! 👋
 
-I'm a B.Tech student at the [Computer Science and Engineering](https://www.mbm.ac.in/deptt-of-computer-science-engineering) department of [MBM University](https://www.mbm.ac.in/).
+I'm a B.Tech student at the [Computer Science and Engineering](https://www.nitj.ac.in/) department of [Dr. B.R. Ambedkar National Institute of Technology, Jalandhar (NIT Jalandhar)](https://www.nitj.ac.in/).
 
-🚀 Passionate about Open Source, I've contributed to various organizations, helping build and improve projects that benefit the community. Coding for Open Source is not just a hobby for me — *it's a way of life!*
+🚀 Passionate about full-stack development and building impactful projects. I love solving problems and creating seamless user experiences.
 
-💻 With 6 months of experience as a full stack developer, I'm constantly evolving and embracing new technologies.
+💻 With experience in React, Node.js, TypeScript, and databases like MongoDB and PostgreSQL, I'm constantly evolving and embracing new technologies.
 
-🌱 Currently diving deep into Next.js, TypeScript, and WebSockets, while also working on building my own library.
+🌱 Currently focused on system design, cloud & DevOps (Docker, AWS), and strengthening my DSA skills — 300+ problems solved on LeetCode and GFG.
 
-🤝 Always excited to collaborate on impactful Open Source projects.
+🤝 Always excited to collaborate on meaningful projects.
 
 Let's build something amazing together! 🌟
 
@@ -21,14 +21,11 @@ Let's build something amazing together! 🌟
 
 Contact me by:
 
-- Email: [aakash@gmail.com](mailto:aakash6263264@gmail.com)
-- Github: [@aakashsharma003](https://github.com/macOS-Portfolio)
-- GSSOC: [GSSOC Contributer](https://gssoc.girlscript.tech/)
-- Linkedin: [aakashsharma003](https://www.linkedin.com/in/aakashsharma003)
-- Personal Website: [dev.me](https://aakash-sharma.vercel.app)
+- Email: [nishant64563@gmail.com](mailto:nishant64563@gmail.com)
+- Github: [@Nishantkumar012](https://github.com/Nishantkumar012)
+- Linkedin: [nishant-kumar](https://www.linkedin.com/in/nishant-kumar-534434352/)
 
 
 ## Resume
 
-- download: [English](https://drive.google.com/file/d/1EDQQZQvAWodAMgEdycBP7E_6UmmVlz-x/view?usp=sharing)
-
+- Download: [Nishant Kumar Resume](/Nishant_nitj_resume.pdf)
