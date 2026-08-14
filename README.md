@@ -1,6 +1,6 @@
 # macOS Tahoe Portfolio
 
-**Live Demo:** [https://nishant-kumar.vercel.app](https://nishant-kumar.vercel.app)
+**Live Demo:** [portfolio](https://portfolio-nu-wine-13x3xasjiy.vercel.app/)
 
 I've always been kind of obsessed with how macOS looks and feels — the way everything just... flows. So at some point I stopped wishing and started building.
 
