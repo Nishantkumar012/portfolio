@@ -114,7 +114,7 @@ export default function Clock() {
   const AnalogClock = ({ size = 120 }: { size?: number }) => (
     <svg width={size} height={size} viewBox="0 0 120 120">
       {/* Face */}
-      <circle cx="60" cy="60" r="58" fill="var(--c-bg-secondary, rgba(30,30,35,0.95))" stroke="var(--c-border, rgba(255,255,255,0.1))" strokeWidth="1" />
+      <circle cx="60" cy="60" r="58" fill="rgba(30,30,35,0.95)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
       {/* Hour markers */}
       {Array.from({ length: 12 }).map((_, i) => {
         const angle = (i * 30 * Math.PI) / 180;
@@ -122,14 +122,14 @@ export default function Clock() {
         const y1 = 60 - 50 * Math.cos(angle);
         const x2 = 60 + 54 * Math.sin(angle);
         const y2 = 60 - 54 * Math.cos(angle);
-        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--c-text-tertiary, rgba(255,255,255,0.4))" strokeWidth="2" strokeLinecap="round" />;
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" />;
       })}
       {/* Hour hand */}
       <line
         x1="60" y1="60"
         x2={60 + 28 * Math.sin((hrDeg * Math.PI) / 180)}
         y2={60 - 28 * Math.cos((hrDeg * Math.PI) / 180)}
-        stroke="var(--c-text, white)" strokeWidth="3" strokeLinecap="round"
+        stroke="white" strokeWidth="3" strokeLinecap="round"
         style={{ transition: "all 0.5s ease" }}
       />
       {/* Minute hand */}
@@ -137,7 +137,7 @@ export default function Clock() {
         x1="60" y1="60"
         x2={60 + 38 * Math.sin((minDeg * Math.PI) / 180)}
         y2={60 - 38 * Math.cos((minDeg * Math.PI) / 180)}
-        stroke="var(--c-text, white)" strokeWidth="2" strokeLinecap="round"
+        stroke="white" strokeWidth="2" strokeLinecap="round"
         style={{ transition: "all 0.5s ease" }}
       />
       {/* Second hand */}

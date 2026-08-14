@@ -59,23 +59,66 @@ const Highlighter = (dark: boolean): any => {
 
 const Sidebar = ({ cur, setMidBar }: SidebarProps) => {
   return (
-    <div text-white>
-      <div className="h-12 pr-3 hstack space-x-3 justify-end">
-        <span className="i-ph:cloud-slash text-xl" />
-        <span className="i-ph:sliders-horizontal text-xl" />
+    <div style={{ color: 'white', display: 'flex', flexDirection: 'column', height: '100%' }}>
+      {/* Header */}
+      <div
+        style={{
+          height: '48px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          paddingRight: '12px',
+          gap: '10px',
+          flexShrink: 0,
+        }}
+      >
+        <span
+          className="i-ph:cloud-slash"
+          style={{ fontSize: '18px', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', transition: 'color 0.15s' }}
+        />
+        <span
+          className="i-ph:sliders-horizontal"
+          style={{ fontSize: '18px', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', transition: 'color 0.15s' }}
+        />
       </div>
-      <ul>
-        {bear.map((item, index) => (
-          <li
-            key={`bear-sidebar-${item.id}`}
-            className={`pl-6 h-8 hstack cursor-default ${cur === index ? "bg-red-500" : "bg-transparent"
-              } ${cur === index ? "" : "hover:bg-gray-600"}`}
-            onClick={() => setMidBar(item.md, index)}
-          >
-            <span className={item.icon} />
-            <span className="ml-2">{item.title}</span>
-          </li>
-        ))}
+
+      {/* Category List */}
+      <ul style={{ listStyle: 'none', margin: 0, padding: '4px 8px', flex: 1, overflowY: 'auto' }}>
+        {bear.map((item, index) => {
+          const isActive = cur === index;
+          return (
+            <li
+              key={`bear-sidebar-${item.id}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                height: '36px',
+                padding: '0 10px',
+                borderRadius: '8px',
+                cursor: 'default',
+                fontSize: '13px',
+                fontWeight: isActive ? 600 : 400,
+                color: isActive ? 'white' : 'rgba(255,255,255,0.7)',
+                background: isActive
+                  ? 'linear-gradient(90deg, rgba(255,59,48,0.85), rgba(255,59,48,0.6))'
+                  : 'transparent',
+                transition: 'all 0.15s ease',
+                marginBottom: '2px',
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) e.currentTarget.style.background = 'transparent';
+              }}
+              onClick={() => setMidBar(item.md, index)}
+            >
+              <span className={item.icon} style={{ fontSize: '16px', flexShrink: 0 }} />
+              <span>{item.title}</span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -83,40 +126,154 @@ const Sidebar = ({ cur, setMidBar }: SidebarProps) => {
 
 const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
   return (
-    <ul>
-      {items.map((item: BearMdData, index: number) => (
-        <li
-          key={`bear-midbar-${item.id}`}
-          className={`h-24 flex flex-col cursor-default border-l-2 ${cur === index
-              ? "border-red-500 bg-white dark:bg-gray-900"
-              : "border-transparent bg-transparent"
-            } hover:(bg-white dark:bg-gray-900)`}
-          onClick={() => setContent(item.id, item.file, index)}
-        >
-          <div className="h-8 mt-3 hstack">
-            <div className="-mt-1 w-10 vstack text-c-500">
-              <span className={item.icon} />
-            </div>
-            <span className="relative flex-1 font-bold" text="gray-900 dark:gray-100">
-              {item.title}
-              {item.link && (
-                <a
-                  pos="absolute top-1 right-4"
-                  href={item.link}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span className="i-ph:link text-c-500" />
-                </a>
+    <div style={{ padding: '6px', height: '100%', overflowY: 'auto' }}>
+      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        {items.map((item: BearMdData, index: number) => {
+          const isActive = cur === index;
+          return (
+            <li
+              key={`bear-midbar-${item.id}`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '12px 14px 10px',
+                borderRadius: '10px',
+                cursor: 'default',
+                background: isActive
+                  ? 'var(--c-bg, white)'
+                  : 'transparent',
+                boxShadow: isActive
+                  ? '0 1px 4px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                  : 'none',
+                transition: 'all 0.15s ease',
+                position: 'relative',
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.background = 'color-mix(in srgb, var(--c-bg, white) 60%, transparent)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.background = 'transparent';
+                }
+              }}
+              onClick={() => setContent(item.id, item.file, index)}
+            >
+              {/* Active accent bar */}
+              {isActive && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: '3px',
+                    height: '20px',
+                    borderRadius: '0 3px 3px 0',
+                    background: 'var(--system-red, #FF3B30)',
+                  }}
+                />
               )}
-            </span>
-          </div>
-          <div className="flex-1 ml-10" p="b-2 r-1" text="sm c-500" border="b c-300">
-            {item.excerpt}
-          </div>
-        </li>
-      ))}
-    </ul>
+
+              {/* Title row */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '4px',
+                }}
+              >
+                {/* Icon in subtle circle */}
+                <div
+                  style={{
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '7px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: isActive
+                      ? 'var(--system-red, #FF3B30)'
+                      : 'var(--c-bg-tertiary, rgba(0,0,0,0.05))',
+                    flexShrink: 0,
+                  }}
+                >
+                  <span
+                    className={item.icon}
+                    style={{
+                      fontSize: '14px',
+                      color: isActive ? 'white' : 'var(--c-text-secondary, rgba(0,0,0,0.45))',
+                    }}
+                  />
+                </div>
+
+                {/* Title */}
+                <span
+                  style={{
+                    flex: 1,
+                    fontSize: '13.5px',
+                    fontWeight: 600,
+                    color: 'var(--c-text, #1c1c1e)',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {item.title}
+                </span>
+
+                {/* Link icon */}
+                {item.link && (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      width: '22px',
+                      height: '22px',
+                      borderRadius: '5px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--c-text-tertiary, rgba(0,0,0,0.3))',
+                      transition: 'all 0.15s',
+                      flexShrink: 0,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'var(--c-bg-tertiary, rgba(0,0,0,0.05))';
+                      e.currentTarget.style.color = 'var(--c-text, #1c1c1e)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = 'var(--c-text-tertiary, rgba(0,0,0,0.3))';
+                    }}
+                  >
+                    <span className="i-ph:arrow-up-right" style={{ fontSize: '13px' }} />
+                  </a>
+                )}
+              </div>
+
+              {/* Excerpt */}
+              <div
+                style={{
+                  fontSize: '12px',
+                  lineHeight: 1.45,
+                  color: 'var(--c-text-secondary, rgba(0,0,0,0.45))',
+                  marginLeft: '36px',
+                  overflow: 'hidden',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                }}
+              >
+                {item.excerpt}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 
@@ -170,7 +327,16 @@ const Content = ({ contentID, contentURL }: ContentProps) => {
   }, [contentID, contentURL, fetchMarkdown]);
 
   return (
-    <div className="markdown w-2/3 mx-auto px-2 py-6 text-c-700">
+    <div
+      className="markdown"
+      style={{
+        width: '66.666%',
+        maxWidth: '700px',
+        margin: '0 auto',
+        padding: '24px 32px',
+        color: 'var(--c-text-secondary, rgba(0,0,0,0.65))',
+      }}
+    >
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[
@@ -214,18 +380,50 @@ const Bear = () => {
   };
 
   return (
-    <div className="bear font-avenir flex h-full">
-      <div className="w-44 overflow-auto" style={{ background: "var(--lg-bg-tinted)", backdropFilter: "var(--lg-blur-menu)" }}>
+    <div
+      className="bear font-avenir"
+      style={{ display: 'flex', height: '100%', overflow: 'hidden' }}
+    >
+      {/* Sidebar */}
+      <div
+        style={{
+          width: '176px',
+          flexShrink: 0,
+          overflowY: 'auto',
+          background: 'var(--lg-bg-tinted)',
+          backdropFilter: 'var(--lg-blur-menu)',
+          WebkitBackdropFilter: 'var(--lg-blur-menu)',
+          borderRight: '0.5px solid var(--c-border, rgba(0,0,0,0.1))',
+        }}
+      >
         <Sidebar cur={state.curSidebar} setMidBar={setMidBar} />
       </div>
-      <div className="w-60 overflow-auto" bg="gray-50 dark:gray-800" border="r c-300">
+
+      {/* Middlebar */}
+      <div
+        style={{
+          width: '240px',
+          flexShrink: 0,
+          overflowY: 'auto',
+          background: 'var(--c-bg-secondary, #f5f5f7)',
+          borderRight: '0.5px solid var(--c-border, rgba(0,0,0,0.08))',
+        }}
+      >
         <Middlebar
           items={state.midbarList}
           cur={state.curMidbar}
           setContent={setContent}
         />
       </div>
-      <div className="flex-1 overflow-auto" bg="gray-50 dark:gray-800">
+
+      {/* Content */}
+      <div
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          background: 'var(--c-bg, white)',
+        }}
+      >
         <Content contentID={state.contentID} contentURL={state.contentURL} />
       </div>
     </div>

@@ -74,6 +74,12 @@ export default function Desktop(props: MacActions) {
     window.dispatchEvent(new CustomEvent("launchpad:openSafari"));
   };
 
+  // Open a URL inside the native Safari window (same mechanism Launchpad uses).
+  const openInSafari = (link: string) => {
+    useStore.getState().setSafariUrl(link);
+    window.dispatchEvent(new CustomEvent("launchpad:openSafari"));
+  };
+
   // Listen for cross-component events and global keyboard shortcuts
   useEffect(() => {
     const handleOpenSafari = () => {
@@ -281,6 +287,16 @@ export default function Desktop(props: MacActions) {
     setContextMenu({ show: true, x: e.clientX, y: e.clientY });
   };
 
+  // Desktop section shortcuts — About/Projects/Contact/Resume on the right
+  // edge (mirrors the reference portfolio's desktop). Each opens the app that
+  // best represents that section.
+  const DESKTOP_SECTIONS = [
+    { id: "about", label: "About Me", icon: "i-ph:user-focus", action: () => openApp("bear") },
+    { id: "projects", label: "Projects", icon: "i-ph:briefcase", action: () => openInSafari("https://github.com/Nishantkumar012") },
+    { id: "contact", label: "Contact", icon: "i-ph:envelope-simple", action: () => openApp("mail") },
+    { id: "resume", label: "Resume", icon: "i-ph:file-text", action: () => openInSafari("/Nishant_nitj_resume.pdf") },
+  ];
+
   return (
     <div
       className="size-full overflow-hidden bg-center bg-cover"
@@ -327,19 +343,74 @@ export default function Desktop(props: MacActions) {
         </div>
       </div>
 
-      {/* Desktop Icons - top-right */}
+      {/* Desktop section shortcuts — right edge, vertically centered.
+          Styled like macOS desktop icons: frosted tile + white label.
+          (Window chrome renders above at zIndex 60.) */}
       <div
         style={{
           position: "fixed",
-          top: 48,
+          top: "50%",
           right: 24,
+          transform: "translateY(-50%)",
           zIndex: 55,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 24,
+          gap: 20,
         }}
       >
+        {DESKTOP_SECTIONS.map((s, i) => (
+          <motion.button
+            key={s.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 + i * 0.07, duration: 0.3, ease: "easeOut" }}
+            onClick={() => s.action()}
+            className="group flex flex-col items-center gap-2 w-[80px] p-2 rounded-xl transition-colors cursor-pointer select-none outline-none"
+          >
+            {/* Icon tile */}
+            <div
+              className="relative flex items-center justify-center overflow-hidden transition-all duration-200 bg-[rgba(26,27,38,0.6)] group-hover:bg-[rgba(26,27,38,0.85)] border border-white/15 group-hover:border-white/30"
+              style={{
+                width: 58,
+                height: 58,
+                borderRadius: 20,
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)",
+              }}
+            >
+              {/* top glass highlight */}
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  borderRadius: 20,
+                  background: "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, transparent 55%)",
+                }}
+              />
+              <span
+                className={s.icon}
+                style={{
+                  fontSize: 26,
+                  color: "#fff",
+                  filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.5))",
+                  position: "relative",
+                }}
+              />
+            </div>
+            {/* Label */}
+            <span
+              className="px-1 text-center font-medium leading-tight"
+              style={{
+                fontSize: 13,
+                color: "#fff",
+                textShadow: "0 1px 3px rgba(0,0,0,0.85)",
+              }}
+            >
+              {s.label}
+            </span>
+          </motion.button>
+        ))}
       </div>
 
       {isMobile && (

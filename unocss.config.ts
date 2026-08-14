@@ -8,6 +8,17 @@ import {
   transformerAttributifyJsx
 } from "unocss";
 
+// Iconify collections used by this project, registered explicitly.
+// Loading them via direct dynamic import (instead of relying on presetIcons'
+// automatic `@iconify-json/<name>` resolution) is what makes icons render in
+// production builds — the auto-resolver needs the transitive `@iconify/utils`
+// loader, which is not reachable under pnpm's strict node_modules, so it
+// silently failed and dropped every `i-ph:` / `i-fa6-brands:` icon.
+const iconCollections = {
+  ph: () => import("@iconify-json/ph/icons.json").then((m) => m.default),
+  "fa6-brands": () => import("@iconify-json/fa6-brands/icons.json").then((m) => m.default),
+};
+
 const colorReg = (prefix: string) => new RegExp("^" + prefix + "-([0-9a-z]+)(/(\\d+))?$");
 
 const colorAttr = (prefix: string, [, color, , opacity]: RegExpMatchArray) => {
@@ -67,7 +78,8 @@ export default defineConfig({
       warn: true,
       extraProperties: {
         display: "inline-block"
-      }
+      },
+      collections: iconCollections
     })
   ],
   theme: {

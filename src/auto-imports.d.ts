@@ -59,6 +59,7 @@ declare global {
   const appleMenuTsxTmp27497: typeof import('./components/menus/AppleMenu.tsx.tmp.27497.35dadc170c64')['default']
   const clockTsxTmp44631: typeof import('./components/apps/Clock.tsx.tmp.44631.35136336935d')['default']
   const createRef: typeof import('react')['createRef']
+  const finderTsxTmp18728: typeof import('./components/apps/Finder.tsx.tmp.18728.daf7794d69ab')['default']
   const finderTsxTmp27497: typeof import('./components/apps/Finder.tsx.tmp.27497.79a6145bf09a')['default']
   const finderTsxTmp44631: typeof import('./components/apps/Finder.tsx.tmp.44631.1e34d450a3bb')['default']
   const forwardRef: typeof import('react')['forwardRef']
