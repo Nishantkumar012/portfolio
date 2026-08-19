@@ -4,7 +4,7 @@
 
 Hey there! 👋
 
-I'm a B.Tech student at the [Computer Science and Engineering](https://www.nitj.ac.in/) department of [Dr. B.R. Ambedkar National Institute of Technology, Jalandhar (NIT Jalandhar)](https://www.nitj.ac.in/).
+I have done  **Bachelor of Technology**  **in 2026 From** [Dr. B.R. Ambedkar National Institute of Technology, Jalandhar (NIT Jalandhar)](https://www.nitj.ac.in/).
 
 🚀 Passionate about full-stack development and building impactful projects. I love solving problems and creating seamless user experiences.
 

@@ -35,6 +35,14 @@ const bear: BearData[] = [
     icon: "i-ph:git-branch",
     md: [
       {
+        id: "snap-link",
+        title: "Snap Link",
+        file: "https://raw.githubusercontent.com/Nishantkumar012/url_shortner/refs/heads/main/README.md",
+        icon: "i-ph:link-simple",
+        excerpt: "A scalable URL shortening backend with JWT auth, Redis caching, BullMQ background jobs, and click-tracking analytics.",
+        link: "https://github.com/Nishantkumar012/snap-link"
+      },
+      {
         id: "wedraw",
         title: "WeDraw",
         file: "https://raw.githubusercontent.com/Nishantkumar012/wedraw/main/README.md",

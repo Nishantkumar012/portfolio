@@ -8,6 +8,15 @@ import { dracula, prism } from "react-syntax-highlighter/dist/esm/styles/prism";
 import bear from "~/configs/bear";
 import type { BearMdData } from "~/types";
 
+/* ------------------------------------------------------------------
+ * Bear App — ObsidianOS glassmorphism theme
+ * Crimson accents, translucent surfaces, cinematic dark mode
+ * ------------------------------------------------------------------ */
+
+const CRIMSON = "#ff5545";
+const CRIMSON_SOFT = "#ffb4aa";
+const CRIMSON_GLOW = "rgba(255, 85, 69, 0.15)";
+
 interface ContentProps {
   contentID: string;
   contentURL: string;
@@ -63,27 +72,28 @@ const Sidebar = ({ cur, setMidBar }: SidebarProps) => {
       {/* Header */}
       <div
         style={{
-          height: '48px',
+          height: '52px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-end',
           paddingRight: '12px',
           gap: '10px',
           flexShrink: 0,
+          borderBottom: '1px solid rgba(255,255,255,0.12)',
         }}
       >
         <span
           className="i-ph:cloud-slash"
-          style={{ fontSize: '18px', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', transition: 'color 0.15s' }}
+          style={{ fontSize: '18px', color: 'rgba(255,255,255,0.55)', cursor: 'pointer', transition: 'color 0.15s' }}
         />
         <span
           className="i-ph:sliders-horizontal"
-          style={{ fontSize: '18px', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', transition: 'color 0.15s' }}
+          style={{ fontSize: '18px', color: 'rgba(255,255,255,0.55)', cursor: 'pointer', transition: 'color 0.15s' }}
         />
       </div>
 
       {/* Category List */}
-      <ul style={{ listStyle: 'none', margin: 0, padding: '4px 8px', flex: 1, overflowY: 'auto' }}>
+      <ul style={{ listStyle: 'none', margin: 0, padding: '8px 10px', flex: 1, overflowY: 'auto' }}>
         {bear.map((item, index) => {
           const isActive = cur === index;
           return (
@@ -92,29 +102,38 @@ const Sidebar = ({ cur, setMidBar }: SidebarProps) => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                height: '36px',
-                padding: '0 10px',
-                borderRadius: '8px',
+                gap: '10px',
+                height: '38px',
+                padding: '0 12px',
+                borderRadius: '10px',
                 cursor: 'default',
                 fontSize: '13px',
                 fontWeight: isActive ? 600 : 400,
-                color: isActive ? 'white' : 'rgba(255,255,255,0.7)',
+                color: isActive ? 'white' : 'rgba(255,255,255,0.75)',
                 background: isActive
-                  ? 'linear-gradient(90deg, rgba(255,59,48,0.85), rgba(255,59,48,0.6))'
+                  ? `linear-gradient(135deg, ${CRIMSON}, rgba(255,85,69,0.7))`
                   : 'transparent',
-                transition: 'all 0.15s ease',
-                marginBottom: '2px',
+                boxShadow: isActive
+                  ? '0 4px 16px rgba(255,85,69,0.25), inset 0 1px 0 rgba(255,255,255,0.15)'
+                  : 'none',
+                transition: 'all 0.2s ease',
+                marginBottom: '4px',
               }}
               onMouseEnter={(e) => {
-                if (!isActive) e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                if (!isActive) {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.9)';
+                }
               }}
               onMouseLeave={(e) => {
-                if (!isActive) e.currentTarget.style.background = 'transparent';
+                if (!isActive) {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.75)';
+                }
               }}
               onClick={() => setMidBar(item.md, index)}
             >
-              <span className={item.icon} style={{ fontSize: '16px', flexShrink: 0 }} />
+              <span className={item.icon} style={{ fontSize: '17px', flexShrink: 0, opacity: isActive ? 1 : 0.8 }} />
               <span>{item.title}</span>
             </li>
           );
@@ -126,8 +145,8 @@ const Sidebar = ({ cur, setMidBar }: SidebarProps) => {
 
 const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
   return (
-    <div style={{ padding: '6px', height: '100%', overflowY: 'auto' }}>
-      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+    <div style={{ padding: '8px', height: '100%', overflowY: 'auto' }}>
+      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {items.map((item: BearMdData, index: number) => {
           const isActive = cur === index;
           return (
@@ -136,26 +155,31 @@ const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                padding: '12px 14px 10px',
-                borderRadius: '10px',
+                padding: '14px 16px 12px',
+                borderRadius: '12px',
                 cursor: 'default',
                 background: isActive
-                  ? 'var(--c-bg, white)'
+                  ? 'rgba(255,255,255,0.1)'
                   : 'transparent',
+                border: isActive
+                  ? '1px solid rgba(255,255,255,0.15)'
+                  : '1px solid transparent',
                 boxShadow: isActive
-                  ? '0 1px 4px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.04)'
+                  ? '0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1)'
                   : 'none',
-                transition: 'all 0.15s ease',
+                transition: 'all 0.2s ease',
                 position: 'relative',
               }}
               onMouseEnter={(e) => {
                 if (!isActive) {
-                  e.currentTarget.style.background = 'color-mix(in srgb, var(--c-bg, white) 60%, transparent)';
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isActive) {
                   e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.borderColor = 'transparent';
                 }
               }}
               onClick={() => setContent(item.id, item.file, index)}
@@ -169,9 +193,10 @@ const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
                     top: '50%',
                     transform: 'translateY(-50%)',
                     width: '3px',
-                    height: '20px',
+                    height: '24px',
                     borderRadius: '0 3px 3px 0',
-                    background: 'var(--system-red, #FF3B30)',
+                    background: CRIMSON,
+                    boxShadow: `0 0 12px ${CRIMSON}`,
                   }}
                 />
               )}
@@ -181,30 +206,33 @@ const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '4px',
+                  gap: '10px',
+                  marginBottom: '6px',
                 }}
               >
                 {/* Icon in subtle circle */}
                 <div
                   style={{
-                    width: '28px',
-                    height: '28px',
-                    borderRadius: '7px',
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     background: isActive
-                      ? 'var(--system-red, #FF3B30)'
-                      : 'var(--c-bg-tertiary, rgba(0,0,0,0.05))',
+                      ? `linear-gradient(135deg, ${CRIMSON}, rgba(255,85,69,0.7))`
+                      : 'rgba(255,255,255,0.08)',
+                    boxShadow: isActive
+                      ? `0 2px 8px rgba(255,85,69,0.3)`
+                      : 'none',
                     flexShrink: 0,
                   }}
                 >
                   <span
                     className={item.icon}
                     style={{
-                      fontSize: '14px',
-                      color: isActive ? 'white' : 'var(--c-text-secondary, rgba(0,0,0,0.45))',
+                      fontSize: '15px',
+                      color: isActive ? 'white' : 'rgba(255,255,255,0.65)',
                     }}
                   />
                 </div>
@@ -213,9 +241,9 @@ const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
                 <span
                   style={{
                     flex: 1,
-                    fontSize: '13.5px',
+                    fontSize: '14px',
                     fontWeight: 600,
-                    color: 'var(--c-text, #1c1c1e)',
+                    color: 'rgba(255,255,255,0.98)',
                     lineHeight: 1.3,
                   }}
                 >
@@ -230,26 +258,26 @@ const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
                     rel="noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     style={{
-                      width: '22px',
-                      height: '22px',
-                      borderRadius: '5px',
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '6px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: 'var(--c-text-tertiary, rgba(0,0,0,0.3))',
+                      color: 'rgba(255,255,255,0.45)',
                       transition: 'all 0.15s',
                       flexShrink: 0,
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--c-bg-tertiary, rgba(0,0,0,0.05))';
-                      e.currentTarget.style.color = 'var(--c-text, #1c1c1e)';
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                      e.currentTarget.style.color = CRIMSON_SOFT;
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = 'var(--c-text-tertiary, rgba(0,0,0,0.3))';
+                      e.currentTarget.style.color = 'rgba(255,255,255,0.45)';
                     }}
                   >
-                    <span className="i-ph:arrow-up-right" style={{ fontSize: '13px' }} />
+                    <span className="i-ph:arrow-up-right" style={{ fontSize: '14px' }} />
                   </a>
                 )}
               </div>
@@ -258,9 +286,9 @@ const Middlebar = ({ items, cur, setContent }: MiddlebarProps) => {
               <div
                 style={{
                   fontSize: '12px',
-                  lineHeight: 1.45,
-                  color: 'var(--c-text-secondary, rgba(0,0,0,0.45))',
-                  marginLeft: '36px',
+                  lineHeight: 1.5,
+                  color: 'rgba(255,255,255,0.6)',
+                  marginLeft: '40px',
                   overflow: 'hidden',
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
@@ -331,10 +359,10 @@ const Content = ({ contentID, contentURL }: ContentProps) => {
       className="markdown"
       style={{
         width: '66.666%',
-        maxWidth: '700px',
+        maxWidth: '720px',
         margin: '0 auto',
-        padding: '24px 32px',
-        color: 'var(--c-text-secondary, rgba(0,0,0,0.65))',
+        padding: '32px 40px',
+        color: 'rgba(255,255,255,0.88)',
       }}
     >
       <ReactMarkdown
@@ -384,29 +412,31 @@ const Bear = () => {
       className="bear font-avenir"
       style={{ display: 'flex', height: '100%', overflow: 'hidden' }}
     >
-      {/* Sidebar */}
+      {/* Sidebar - Dark glass */}
       <div
         style={{
-          width: '176px',
+          width: '180px',
           flexShrink: 0,
           overflowY: 'auto',
-          background: 'var(--lg-bg-tinted)',
-          backdropFilter: 'var(--lg-blur-menu)',
-          WebkitBackdropFilter: 'var(--lg-blur-menu)',
-          borderRight: '0.5px solid var(--c-border, rgba(0,0,0,0.1))',
+          background: 'rgba(15, 15, 17, 0.9)',
+          backdropFilter: 'blur(30px)',
+          WebkitBackdropFilter: 'blur(30px)',
+          borderRight: '1px solid rgba(255,255,255,0.1)',
         }}
       >
         <Sidebar cur={state.curSidebar} setMidBar={setMidBar} />
       </div>
 
-      {/* Middlebar */}
+      {/* Middlebar - Medium glass */}
       <div
         style={{
-          width: '240px',
+          width: '260px',
           flexShrink: 0,
           overflowY: 'auto',
-          background: 'var(--c-bg-secondary, #f5f5f7)',
-          borderRight: '0.5px solid var(--c-border, rgba(0,0,0,0.08))',
+          background: 'rgba(22, 22, 24, 0.85)',
+          backdropFilter: 'blur(25px)',
+          WebkitBackdropFilter: 'blur(25px)',
+          borderRight: '1px solid rgba(255,255,255,0.08)',
         }}
       >
         <Middlebar
@@ -416,12 +446,14 @@ const Bear = () => {
         />
       </div>
 
-      {/* Content */}
+      {/* Content - Light glass with subtle cosmic feel */}
       <div
         style={{
           flex: 1,
           overflowY: 'auto',
-          background: 'var(--c-bg, white)',
+          background: 'rgba(14, 14, 16, 0.75)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
         }}
       >
         <Content contentID={state.contentID} contentURL={state.contentURL} />

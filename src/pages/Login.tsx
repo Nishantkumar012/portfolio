@@ -7,9 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function Login(props: MacActions) {
   const [password, setPassword] = useState("");
   const [sign, setSign] = useState("Press enter to login");
-  const dark = useStore((state) => state.dark);
-  const getWallpaper = useStore((state) => state.getWallpaper);
-  const activeWallpaper = getWallpaper();
   const [isloginOpen, setIsLoginOpen] = useState(false);
   const [time, setTime] = useState(moment().format("h:mm"));
   const [period, setPeriod] = useState(moment().format("A"));
@@ -38,11 +35,6 @@ export default function Login(props: MacActions) {
   return (
     <div
       className="size-full login text-center relative overflow-hidden"
-      style={{
-        background: `url(${
-          dark ? activeWallpaper.night : activeWallpaper.day
-        }) center/cover no-repeat`,
-      }}
       onClick={() => !isloginOpen && setIsLoginOpen(true)}
     >
       <AnimatePresence mode="wait">

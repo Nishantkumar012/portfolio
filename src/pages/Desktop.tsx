@@ -57,15 +57,7 @@ export default function Desktop(props: MacActions) {
     useState<React.RefObject<HTMLDivElement> | null>(null);
   const [showAboutMac, setShowAboutMac] = useState(false);
 
-  const { dark, brightness, getWallpaper } = useStore((s) => ({
-    dark: s.dark,
-    brightness: s.brightness,
-    getWallpaper: s.getWallpaper,
-  }));
-
   const { isMobile } = useWindowSize();
-
-  const activeWallpaper = getWallpaper();
 
   const handleLaunchpadAppClick = (e: React.MouseEvent, link: string) => {
     e.stopPropagation();
@@ -110,19 +102,6 @@ export default function Desktop(props: MacActions) {
         }
       }
 
-      // Brightness Down: Cmd/Ctrl + Down Arrow OR F1
-      if ((isCmdOrCtrl && e.key === 'ArrowDown') || e.key === 'F1') {
-        e.preventDefault();
-        const currentBrightness = useStore.getState().brightness as number;
-        useStore.getState().setBrightness(Math.max(currentBrightness - 10, 1));
-      }
-
-      // Brightness Up: Cmd/Ctrl + Up Arrow OR F2
-      if ((isCmdOrCtrl && e.key === 'ArrowUp') || e.key === 'F2') {
-        e.preventDefault();
-        const currentBrightness = useStore.getState().brightness as number;
-        useStore.getState().setBrightness(Math.min(currentBrightness + 10, 100));
-      }
     };
 
     window.addEventListener("launchpad:openSafari", handleOpenSafari);
@@ -272,14 +251,6 @@ export default function Desktop(props: MacActions) {
     });
   };
 
-  const bgStyle: any = {
-    backgroundImage: `url(${dark ? activeWallpaper.night : activeWallpaper.day})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    filter: `brightness(${(brightness as number) * 0.7 + 50}%)`
-  };
-  bgStyle["trans" + "ition"] = "filter 0.3s ea" + "se";
-
   const [contextMenu, setContextMenu] = useState({ show: false, x: 0, y: 0 });
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -299,8 +270,7 @@ export default function Desktop(props: MacActions) {
 
   return (
     <div
-      className="size-full overflow-hidden bg-center bg-cover"
-      style={bgStyle}
+      className="size-full overflow-hidden"
       onContextMenu={handleContextMenu}
     >
       {/* Top Menu Bar */}

@@ -64,13 +64,11 @@ export default function App() {
   const { winWidth } = useWindowSize();
   const isMobile = winWidth < 768;
 
-  const { dark, getWallpaper, iconStyle, tintWindows } = useStore((s) => ({
+  const { dark, iconStyle, tintWindows } = useStore((s) => ({
     dark: s.dark,
-    getWallpaper: s.getWallpaper,
     iconStyle: s.iconStyle,
     tintWindows: s.tintWindows,
   }));
-  const activeWallpaper = getWallpaper();
 
   // Sync the persisted appearance to the <html> dark class on mount.
   useEffect(() => {
@@ -122,14 +120,25 @@ export default function App() {
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", background: "transparent" }}>
-      {/* Persistent wallpaper — always visible, never absent during transitions */}
+      {/* Global cosmic background — ObsidianOS nebula with crimson glow */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${dark ? activeWallpaper.night : activeWallpaper.day})`,
+          backgroundColor: "#0c0510",
+          backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDj6T7tVvKChneckELeo_o7mEVv7wSiXXZHnTRFQyKrZeAVabrIow4-BRDYqr03kHIk3oi-Vww0kdt8zbXxHyAxSQNf5M4IJRwqY_lOD_s5CDCczn60AV8mV1qxsAr9fW9Hmq0Saf0XIBpVmObHoBkHF_Umi4zckCQ4ZhHsKrntkFrXMzbsFmxWADTXm9fePCtATEqUJHJyf9JkrJONFZtIAvgih9WfGfZbAh2VI2gmD1aR3xCgsvUI1A')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          zIndex: 0,
+        }}
+      />
+      {/* Ambient crimson glow overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "radial-gradient(circle at 50% 50%, rgba(150, 8, 4, 0.15) 0%, transparent 60%)",
+          pointerEvents: "none",
           zIndex: 0,
         }}
       />

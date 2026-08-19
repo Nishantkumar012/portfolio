@@ -9,7 +9,8 @@
       "Bash(curl -s -o \"public/songs/sadness-cover.jpg\" -L \"https://spotify-clone-xi-one-47.vercel.app/sadness-and-sorrow.jpg\")",
       "Bash(node -e \"const d=require\\('./node_modules/@iconify/json/json/ph.json'\\); const names=['user','user-focus','user-circle-fill','briefcase','briefcase-fill','envelope-simple','file-text','file-doc','file-pdf','paper-plane-tilt-fill','user-plus']; names.forEach\\(n=>console.log\\(n, d.icons[n]?'YES':'no'\\)\\);\")",
       "Bash(grep -oE \"i-ph\\\\\\\\\\\\\\\\:[a-z0-9-]+\" dist/assets/*.css)",
-      "Bash(grep -oE \"i-ph\\\\\\\\\\\\\\\\:user-focus|i-ph\\\\\\\\\\\\\\\\:briefcase|i-ph\\\\\\\\\\\\\\\\:envelope-simple|i-ph\\\\\\\\\\\\\\\\:file-text\" dist/assets/*.css)"
+      "Bash(grep -oE \"i-ph\\\\\\\\\\\\\\\\:user-focus|i-ph\\\\\\\\\\\\\\\\:briefcase|i-ph\\\\\\\\\\\\\\\\:envelope-simple|i-ph\\\\\\\\\\\\\\\\:file-text\" dist/assets/*.css)",
+      "Bash(python -c ' *)"
     ]
   }
 }

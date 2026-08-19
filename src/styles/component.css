@@ -300,6 +300,48 @@
   border: var(--lg-border-subtle);
 }
 
+/* --------- ObsidianOS dashboard (landing) --------- */
+.glass-panel {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-widget {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.active-window {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 85, 69, 0.2);
+}
+
+/* Ambient gradient glow behind the panel heroes */
+.login-glow {
+  background: radial-gradient(circle, rgba(150, 8, 4, 0.18) 0%, transparent 60%);
+}
+
+/* Scrollbar for the activity feed */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 180, 170, 0.3);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 180, 170, 0.5);
+}
+
 /* --------- Animations --------- */
 @keyframes windowOpen {
   from { opacity: 0; transform: scale(0.88); }
@@ -395,6 +437,29 @@
 .launchpad-exit {
   animation: launchpadOut 0.25s ease-in forwards;
   pointer-events: none;
+}
+
+/* ObsidianOS landing — ambient background drift + twinkle */
+@keyframes orbDrift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(60px, -40px) scale(1.15);
+  }
+  66% {
+    transform: translate(-40px, 50px) scale(0.9);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes cosmosSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .launchpad-icon-enter {
