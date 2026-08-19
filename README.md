@@ -1,23 +1,34 @@
-# macOS Tahoe Portfolio
+# macOS  Portfolio
 
-**Live Demo:** [portfolio](https://portfolio-nu-wine-13x3xasjiy.vercel.app/)
+**Live Demo:** [View Portfolio](https://portfolio-nu-wine-13x3xasjiy.vercel.app/)
 
-I've always been kind of obsessed with how macOS looks and feels — the way everything just... flows. So at some point I stopped wishing and started building.
+I've always been fascinated by how macOS looks and feels, especially the way its interface, animations, and interactions come together so naturally.
 
-This is my attempt at recreating that experience on the web — the Liquid Glass surfaces, the soft animations, the little details that make Apple's design so satisfying. It's not a clone, more like a love letter to a design language I genuinely admire.
+So instead of just admiring it, I decided to build my own interpretation of that experience for the web.
 
-Built with [React](https://reactjs.org/), [Zustand](https://zustand-demo.pmnd.rs/), [UnoCSS](https://uno.antfu.me/), [TypeScript](https://www.typescriptlang.org/), and [Vite](https://vitejs.dev/).
+This portfolio is inspired by **macOS Tahoe**, featuring Liquid Glass-inspired surfaces, smooth animations, desktop-style interactions, and small details designed to make the interface feel alive.
 
-&nbsp;
+It's not intended to be a pixel-perfect clone. It's my own take on a design language I genuinely admire.
+
+## Tech Stack
+
+Built with:
+
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/)
+- [Zustand](https://zustand.docs.pmnd.rs/)
+- [UnoCSS](https://unocss.dev/)
 
 ## Little Previews
 
-<img width="1583" height="883" alt="image" src="https://github.com/user-attachments/assets/1ff2961d-316a-4a86-be16-4754c42badc3" />
-<img width="1597" height="883" alt="Screenshot from 2026-06-11 16-49-36" src="https://github.com/user-attachments/assets/bbfe9948-cead-49e0-95ab-8cc3b17c46b1" />
+<img width="1583" height="883" alt="macOS Tahoe Portfolio Preview" src="https://github.com/user-attachments/assets/1ff2961d-316a-4a86-be16-4754c42badc3" />
 
-&nbsp;
+<img width="1597" height="883" alt="macOS Tahoe Portfolio Preview" src="https://github.com/user-attachments/assets/bbfe9948-cead-49e0-95ab-8cc3b17c46b1" />
 
-## Usage
+## Getting Started
+
+### Installation
 
 ```bash
 pnpm install
