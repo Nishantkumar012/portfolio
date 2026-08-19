@@ -53,7 +53,7 @@ const bear: BearData[] = [
       {
         id: "splitzy",
         title: "Splitzy",
-        file: "https://raw.githubusercontent.com/Nishantkumar012/split-free/main/README.md",
+        file: "https://raw.githubusercontent.com/Nishantkumar012/split-free/refs/heads/main/README.md",
         icon: "i-ph:calculator",
         excerpt: "A full-stack group expense management application...",
         link: "https://github.com/Nishantkumar012/split-free"
@@ -61,7 +61,7 @@ const bear: BearData[] = [
       {
         id: "portfolio-macos",
         title: "Portfolio macOS",
-        file: "https://raw.githubusercontent.com/Nishantkumar012/macOS-Portfolio/main/README.md",
+        file: "https://raw.githubusercontent.com/Nishantkumar012/portfolio/refs/heads/main/README.md",
         icon: "i-ph:desktop",
         excerpt: "My portfolio website simulating macOS's GUI...",
         link: "https://github.com/Nishantkumar012/macOS-Portfolio"

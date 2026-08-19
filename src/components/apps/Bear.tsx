@@ -16,6 +16,7 @@ import type { BearMdData } from "~/types";
 const CRIMSON = "#ff5545";
 const CRIMSON_SOFT = "#ffb4aa";
 const CRIMSON_GLOW = "rgba(255, 85, 69, 0.15)";
+const CRIMSON_HEADING = "#ff6b5b"; // slightly lighter for better contrast on dark bg
 
 interface ContentProps {
   contentID: string;
@@ -354,7 +355,14 @@ const Content = ({ contentID, contentURL }: ContentProps) => {
     fetchMarkdown(contentID, contentURL);
   }, [contentID, contentURL, fetchMarkdown]);
 
-  return (
+  const headingStyles = {
+  h1: { color: CRIMSON_HEADING, fontWeight: 700, marginTop: '1.5em', marginBottom: '0.4em', fontSize: '1.8rem', lineHeight: 1.3 },
+  h2: { color: CRIMSON_HEADING, fontWeight: 600, marginTop: '1.4em', marginBottom: '0.35em', fontSize: '1.5rem', lineHeight: 1.35 },
+  h3: { color: CRIMSON_SOFT, fontWeight: 600, marginTop: '1.3em', marginBottom: '0.3em', fontSize: '1.25rem', lineHeight: 1.4 },
+  h4: { color: CRIMSON_SOFT, fontWeight: 600, marginTop: '1.2em', marginBottom: '0.25em', fontSize: '1.1rem', lineHeight: 1.4 },
+};
+
+return (
     <div
       className="markdown"
       style={{
@@ -371,7 +379,13 @@ const Content = ({ contentID, contentURL }: ContentProps) => {
           rehypeKatex,
           [rehypeExternalLinks, { target: "_blank", rel: "noopener noreferrer" }]
         ]}
-        components={Highlighter(dark as boolean)}
+        components={{
+          ...Highlighter(dark as boolean),
+          h1: ({ children, ...props }) => <h1 style={{ ...headingStyles.h1, ...props }}>{children}</h1>,
+          h2: ({ children, ...props }) => <h2 style={{ ...headingStyles.h2, ...props }}>{children}</h2>,
+          h3: ({ children, ...props }) => <h3 style={{ ...headingStyles.h3, ...props }}>{children}</h3>,
+          h4: ({ children, ...props }) => <h4 style={{ ...headingStyles.h4, ...props }}>{children}</h4>,
+        }}
       >
         {storeMd[contentID]}
       </ReactMarkdown>
