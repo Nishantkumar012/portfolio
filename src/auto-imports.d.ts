@@ -41,6 +41,7 @@ declare global {
   const Photos: typeof import('./components/apps/Photos')['default']
   const Safari: typeof import('./components/apps/Safari')['default']
   const Siri: typeof import('./components/apps/Siri')['default']
+  const SpaceTravelBackground: typeof import('./components/SpaceTravelBackground')['default']
   const Spotify: typeof import('./components/apps/Spotify')['default']
   const Spotlight: typeof import('./components/Spotlight')['default']
   const StatusBar: typeof import('./components/mobile/StatusBar')['default']

@@ -6,6 +6,7 @@ import { useStore } from "~/stores";
 import Desktop from "~/pages/Desktop";
 import Login from "~/pages/Login";
 import Boot from "~/pages/Boot";
+import SpaceTravelBackground from "~/components/SpaceTravelBackground";
 
 import "@unocss/reset/tailwind.css";
 import "uno.css";
@@ -132,6 +133,10 @@ export default function App() {
           zIndex: 0,
         }}
       />
+
+      {/* Space Travel Animation Layer — parallax stars + forward motion */}
+      <SpaceTravelBackground />
+
       {/* Ambient crimson glow overlay */}
       <div
         style={{

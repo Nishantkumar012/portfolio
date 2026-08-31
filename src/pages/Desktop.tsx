@@ -336,26 +336,37 @@ export default function Desktop(props: MacActions) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + i * 0.07, duration: 0.3, ease: "easeOut" }}
             onClick={() => s.action()}
-            className="group flex flex-col items-center gap-2 w-[80px] p-2 rounded-xl transition-colors cursor-pointer select-none outline-none"
+            className="group flex flex-col items-center gap-2 w-[80px] p-2 rounded-xl transition-all duration-200 cursor-pointer select-none outline-none hover:scale-105 active:scale-95"
+            whileHover={{ y: -2 }}
+            whileTap={{ y: 0 }}
           >
-            {/* Icon tile */}
+            {/* Icon tile with enhanced glass effect */}
             <div
-              className="relative flex items-center justify-center overflow-hidden transition-all duration-200 bg-[rgba(26,27,38,0.6)] group-hover:bg-[rgba(26,27,38,0.85)] border border-white/15 group-hover:border-white/30"
+              className="relative flex items-center justify-center overflow-hidden transition-all duration-200 bg-[rgba(26,27,38,0.6)] group-hover:bg-[rgba(26,27,38,0.95)] border border-white/15 group-hover:border-white/40"
               style={{
                 width: 58,
                 height: 58,
                 borderRadius: 20,
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
-                boxShadow: "0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 1px rgba(255,255,255,0.05)",
+                transition: "all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)",
               }}
             >
-              {/* top glass highlight */}
+              {/* Top glass highlight */}
               <div
                 className="pointer-events-none absolute inset-0"
                 style={{
                   borderRadius: 20,
                   background: "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, transparent 55%)",
+                }}
+              />
+              {/* Subtle glow on hover */}
+              <div
+                className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  borderRadius: 20,
+                  boxShadow: "inset 0 0 20px rgba(0,122,255,0.15)",
                 }}
               />
               <span
@@ -365,16 +376,19 @@ export default function Desktop(props: MacActions) {
                   color: "#fff",
                   filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.5))",
                   position: "relative",
+                  transition: "filter 0.2s ease",
                 }}
               />
             </div>
-            {/* Label */}
+            {/* Label with better typography */}
             <span
-              className="px-1 text-center font-medium leading-tight"
+              className="px-1 text-center font-medium leading-tight transition-all duration-200"
               style={{
                 fontSize: 13,
                 color: "#fff",
                 textShadow: "0 1px 3px rgba(0,0,0,0.85)",
+                fontWeight: 500,
+                letterSpacing: "0.2px",
               }}
             >
               {s.label}

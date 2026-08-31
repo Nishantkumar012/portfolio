@@ -1,0 +1,204 @@
+/* ========================================
+   Space Travel Animation
+   Cinematic parallax stars + depth effect
+   ======================================== */
+
+@keyframes starParallax1 {
+  0% {
+    transform: translateZ(0) translateY(0);
+    opacity: 0.3;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateZ(200px) translateY(-40px);
+    opacity: 0.7;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateZ(0) translateY(0);
+    opacity: 0.3;
+  }
+}
+
+@keyframes starParallax2 {
+  0% {
+    transform: translateZ(0) translateY(0);
+    opacity: 0.4;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateZ(150px) translateY(60px);
+    opacity: 0.8;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateZ(0) translateY(0);
+    opacity: 0.4;
+  }
+}
+
+@keyframes starParallax3 {
+  0% {
+    transform: translateZ(0) translateX(0);
+    opacity: 0.25;
+  }
+  25% {
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateZ(100px) translateX(-50px);
+    opacity: 0.6;
+  }
+  75% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateZ(0) translateX(0);
+    opacity: 0.25;
+  }
+}
+
+@keyframes subtleGlow {
+  0%, 100% {
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes forwardMotion {
+  0% {
+    clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+  }
+  100% {
+    clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%);
+  }
+}
+
+@keyframes cameraZoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.space-travel-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  perspective: 1000px;
+}
+
+.space-travel-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: forwardMotion 8s ease-in-out infinite, cameraZoom 12s ease-in-out infinite;
+}
+
+.space-travel-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Star particle styles */
+.space-star {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(200, 220, 255, 0.4));
+  animation: subtleGlow 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+.space-star.layer-1 {
+  animation: starParallax1 16s ease-in-out infinite;
+}
+
+.space-star.layer-2 {
+  animation: starParallax2 20s ease-in-out infinite;
+}
+
+.space-star.layer-3 {
+  animation: starParallax3 24s ease-in-out infinite;
+}
+
+/* Distant stars (background) */
+.space-star.distant {
+  opacity: 0.2;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.2));
+}
+
+/* Medium distance stars */
+.space-star.medium {
+  opacity: 0.4;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
+}
+
+/* Close stars (foreground) */
+.space-star.close {
+  opacity: 0.8;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+}
+
+/* Ambient space glow overlay */
+.space-ambient-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(100, 150, 255, 0.08) 0%,
+    rgba(150, 8, 4, 0.06) 40%,
+    transparent 100%
+  );
+  animation: subtleGlow 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Nebula-like color wash (subtle) */
+.space-nebula-accent {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 70% 60%,
+    rgba(150, 8, 4, 0.12) 0%,
+    rgba(100, 20, 80, 0.06) 30%,
+    transparent 70%
+  );
+  animation: subtleGlow 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Reduce animation motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .space-travel-stars {
+    animation: none;
+  }
+
+  .space-star {
+    animation: none !important;
+    opacity: 0.5 !important;
+  }
+
+  .space-ambient-glow,
+  .space-nebula-accent {
+    animation: none;
+  }
+}
